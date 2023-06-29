@@ -1,0 +1,15 @@
+- name: Clone yay repository
+  git:
+    force: yes
+    repo: https://aur.archlinux.org/yay-git.git
+    dest: "{{ lookup('env', 'HOME') }}/bin/yay-git"
+
+- name: Make yay
+  command: makepkg -si
+  args:
+    chdir: "{{ lookup('env', 'HOME') }}/bin/yay-git"
+
+- name: Install yay packages
+  command: yay -S --no-confirm {{ item }}
+  loop:
+    - autojump

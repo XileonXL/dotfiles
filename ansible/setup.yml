@@ -8,6 +8,10 @@
     - name: Install pacman packages
       import_tasks: roles/pacman.yml
       when: ansible_facts['os_family'] == 'Archlinux'
+
+    - name: Install yay packages
+      import_tasks: roles/yay.yml
+      when: ansible_facts['os_family'] == 'Archlinux'
       
     - name: Clone dotfiles
       git:
