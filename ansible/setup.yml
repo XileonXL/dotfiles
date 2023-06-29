@@ -1,5 +1,6 @@
 - hosts: all
   become: yes
+  become_user: "{{ lookup('env', 'USER') }}"
   tasks:
     - name: Install apt packages
       import_tasks: roles/apt.yml
