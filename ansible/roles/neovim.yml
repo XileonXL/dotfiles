@@ -8,3 +8,10 @@
   make:
     chdir: "{{ lookup('env', 'HOME') }}/bin/neovim"
     target: install
+
+- name: Install AstroNvim
+  git:
+    force: yes
+    repo: https://github.com/AstroNvim/AstroNvim 
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim"
+    depth: 1
