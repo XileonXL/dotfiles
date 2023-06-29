@@ -53,3 +53,10 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
     state: link
     force: yes
+
+- name: Links icons
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/icons"
+    dest: /usr/share/icons
+    state: link
+    force: yes
