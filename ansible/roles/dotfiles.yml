@@ -11,3 +11,10 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
     state: link
     force: yes
+
+- name: Links fonts dir in ~/.fonts
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/fonts"
+    dest: "{{ lookup('env', 'HOME') }}/.fonts"
+    state: link
+    force: yes
