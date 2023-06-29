@@ -13,3 +13,4 @@
   command: yay -S --no-confirm {{ item }}
   loop:
     - autojump
+    - spotify
