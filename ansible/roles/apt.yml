@@ -22,4 +22,5 @@
     - ripgrep
     - golang
     - wget
-
+    - terminator
+    - firefox
