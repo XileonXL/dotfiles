@@ -4,3 +4,10 @@
     dest: "{{ lookup('env', 'HOME') }}/.zshrc"
     state: link
     force: yes
+
+- name: Links nvim dotfiles/config dir in ~/.config
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/nvim"
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
+    state: link
+    force: yes
