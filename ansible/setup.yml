@@ -1,0 +1,28 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install apt packages
+      import_tasks: roles/apt.yml
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Install pacman packages
+      import_tasks: roles/pacman.yml
+      when: ansible_facts['os_family'] == 'Archlinux'
+      
+    - name: Clone dotfiles
+      git:
+        repo: https://github.com/XileonXL/dotfiles.git
+        dest: "{{ lookup('env', 'HOME') }}/dotfiles"
+
+    - name: Setup personal dotfiles
+      tags: dotfiles
+      import_tasks: roles/dotfiles.yml
+
+    - name: Clone oh-my-zshrc
+      shell: sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc --unattended
+
+    - name: Install latest version of neovim
+      import_tasks: roles/neovim.yml
+
+    - name: Build packages
+      import_tasks: roles/build_packages.yml
