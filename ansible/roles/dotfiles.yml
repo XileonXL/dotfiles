@@ -19,7 +19,7 @@
     state: link
     force: yes
 
-- name: Links fonts dir in ~/.fonts
+- name: Links plank themes in ~/.local/share/plank
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/plank"
     dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
