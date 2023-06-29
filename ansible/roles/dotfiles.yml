@@ -14,7 +14,7 @@
 
 - name: Links fonts dir in ~/.fonts
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/fonts"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/fonts"
     dest: "{{ lookup('env', 'HOME') }}/.fonts"
     state: link
     force: yes
