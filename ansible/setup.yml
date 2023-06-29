@@ -27,6 +27,3 @@
 
     - name: Install latest version of neovim
       import_tasks: roles/neovim.yml
-
-    - name: Build packages
-      import_tasks: roles/build_packages.yml
