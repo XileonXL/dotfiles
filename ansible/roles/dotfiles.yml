@@ -25,3 +25,10 @@
     dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
     state: link
     force: yes
+
+- name: Activates caps swapescape
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/keyboard"
+    dest: /etc/default/keyboard
+    state: link
+    force: yes
