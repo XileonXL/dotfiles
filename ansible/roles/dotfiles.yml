@@ -1,25 +1,40 @@
-- name: Links zshrc file in ~ dir
+- name: Link zshrc file in ~ dir
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/zshrc"
     dest: "{{ lookup('env', 'HOME') }}/.zshrc"
     state: link
     force: yes
 
-- name: Links nvim dotfiles/config dir in ~/.config
+- name: Remove old nvim user config 
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
+    state: absent
+
+- name: Link nvim dotfiles/config dir in ~/.config
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/nvim"
     dest: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
     state: link
     force: yes
 
-- name: Links fonts dir in ~/.fonts
+- name: Remove old fonts
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.fonts"
+    state: absent
+
+- name: Link fonts dir in ~/.fonts
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/fonts"
     dest: "{{ lookup('env', 'HOME') }}/.fonts"
     state: link
     force: yes
 
-- name: Links plank themes in ~/.local/share/plank
+- name: Remove old plank themes
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/plank"
+    state: absent
+
+- name: Link plank themes in ~/.local/share/plank
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/plank"
     dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
@@ -32,31 +47,44 @@
     dest: /etc/default/keyboard
     state: link
     force: yes
+    follow: yes
 
-- name: Links terminator config
+- name: Link terminator config
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/terminator"
     dest: "{{ lookup('env', 'HOME') }}/.config/terminator/config"
     state: link
     force: yes
+    follow: yes
 
-- name: Links albert configuration
+- name: Link albert configuration
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/albert.conf"
     dest: "{{ lookup('env', 'HOME') }}/.config/albert/albert.conf"
     state: link
     force: yes
+    follow: yes
 
-- name: Links autostart config
+- name: Remove old autostart config
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/autostart"
+    state: absent
+
+- name: Link autostart config
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/autostart"
     dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
     state: link
     force: yes
 
-- name: Links icons
+- name: Remove old icons
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.icons"
+    state: absent
+
+- name: Link icons
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/icons"
-    dest: /usr/share/icons
+    dest: "{{ lookup('env', 'HOME') }}/.icons"
     state: link
     force: yes
