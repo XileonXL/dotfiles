@@ -42,12 +42,9 @@
     force: yes
 
 - name: Activates caps swapescape
-  file:
+  copy:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/keyboard"
-    dest: /etc/default/keyboard
-    state: link
-    force: yes
-    follow: yes
+    dest: "/etc/default/keyboard"
 
 - name: Link terminator config
   file:
@@ -55,7 +52,6 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/terminator/config"
     state: link
     force: yes
-    follow: yes
 
 - name: Link albert configuration
   file:
@@ -63,7 +59,6 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/albert/albert.conf"
     state: link
     force: yes
-    follow: yes
 
 - name: Remove old autostart config
   file:
