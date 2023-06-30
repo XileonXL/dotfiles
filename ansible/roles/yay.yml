@@ -10,7 +10,7 @@
     chdir: "{{ lookup('env', 'HOME') }}/bin/yay"
 
 - name: Install yay packages
-  command: yay -S --no-confirm {{ item }}
+  command: yay -S --noconfirm {{ item }}
   loop:
     - autojump
     - spotify
