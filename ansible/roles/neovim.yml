@@ -10,9 +10,20 @@
     chdir: "{{ lookup('env', 'HOME') }}/bin/neovim"
     target: install
 
+- name: Purge nvim cache
+  file:
+    path: "{{ lookup('env', 'HOME') }}/{{ item }}"
+    state: absent
+  loop:
+    - .cache/nvim
+    - .local/share/nvim
+
+
 - name: Install AstroNvim
   git:
     force: yes
     repo: https://github.com/AstroNvim/AstroNvim 
     dest: "{{ lookup('env', 'HOME') }}/.config/nvim"
     depth: 1
+
+
