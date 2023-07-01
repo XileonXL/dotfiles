@@ -1,0 +1,17 @@
+- name: Clone oh-my-zshrc
+  shell: sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc --unattended
+
+- name: Clone spaceship-prompt
+  git:
+    force: yes
+    repo: https://github.com/spaceship-prompt/spaceship-prompt.git
+    dest: "{{ lookup('env', 'ZSH_CUSTOM') }}/themes/spaceship-prompt"
+    depth: 1
+
+- name: Link spaceship theme to oh-my-zsh custom themes
+  file:
+    src: "{{ lookup('env', 'ZSH_CUSTOM') }}/themes/spaceship-prompt/spaceship.zsh-theme"
+    dest: "{{ lookup('env', 'ZSH_CUSTOM') }}/themes/spaceship.zsh-theme"
+    state: link
+    force: yes
+

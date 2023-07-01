@@ -27,6 +27,6 @@
       tags: dotfiles
       import_tasks: roles/dotfiles.yml
 
-    - name: Clone oh-my-zshrc
-      shell: sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc --unattended
-
+    - name: Setup oh-my-zsh
+      tags: oh-my-zsh
+      import_tasks: roles/oh-my-zsh.yml
