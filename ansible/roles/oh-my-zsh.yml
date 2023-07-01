@@ -1,6 +1,13 @@
 - name: Clone oh-my-zshrc
   shell: sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc --unattended
 
+- name: Clone fzf-zsh-plugin
+  git:
+    force: yes
+    repo: https://github.com/unixorn/fzf-zsh-plugin.git
+    dest: "{{ lookup('env', 'ZSH_CUSTOM') }}/plugins/fzf-zsh-plugin"
+    depth: 1
+
 - name: Clone spaceship-prompt
   git:
     force: yes
@@ -14,4 +21,3 @@
     dest: "{{ lookup('env', 'ZSH_CUSTOM') }}/themes/spaceship.zsh-theme"
     state: link
     force: yes
-
