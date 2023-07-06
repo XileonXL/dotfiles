@@ -14,3 +14,4 @@
   loop:
     - autojump
     - spotify
+    - pacman-static
