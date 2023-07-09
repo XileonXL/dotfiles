@@ -6,6 +6,8 @@
 return {
   -- first key is the mode
   n = {
+    -- Compile latex project
+    ["<leader>lc"] = { ":!latexmk -pdf" },
     -- second key is the lefthand side of the map
     -- mappings seen under group name "Buffer"
     ["<leader>bD"] = {
