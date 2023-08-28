@@ -115,6 +115,7 @@ alias klogs="kubectl logs -f"
 alias kget="kubectl get"
 alias vim="nvim"
 alias grep="rg"
+alias rng="ranger"
 
 . /usr/share/autojump/autojump.zsh
 
