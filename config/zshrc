@@ -122,3 +122,6 @@ alias rng="ranger"
 # Git editor
 export GIT_EDITOR=nvim
 export EDITOR=nvim
+
+eval $(thefuck --alias) # To use fuck as auto-correction tool
+alias f="fuck"
