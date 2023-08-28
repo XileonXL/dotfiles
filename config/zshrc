@@ -121,3 +121,4 @@ alias rng="ranger"
 
 # Git editor
 export GIT_EDITOR=nvim
+export EDITOR=nvim
