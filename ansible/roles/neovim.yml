@@ -18,12 +18,9 @@
     - .cache/nvim
     - .local/share/nvim
 
-
 - name: Install AstroNvim
   git:
     force: yes
     repo: https://github.com/AstroNvim/AstroNvim 
     dest: "{{ lookup('env', 'HOME') }}/.config/nvim"
     depth: 1
-
-
