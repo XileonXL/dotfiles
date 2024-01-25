@@ -37,7 +37,7 @@
 - name: Link albert configuration
   file:
     src: "{{ lookup('env', 'HOME') }}/dotfiles/config/albert/albert.conf"
-    dest: "{{ lookup('env', 'HOME') }}/.config/albert.conf"
+    dest: "{{ lookup('env', 'HOME') }}/.config/albert/albert.conf"
     state: link
     force: yes
 
