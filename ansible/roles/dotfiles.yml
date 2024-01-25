@@ -1,13 +1,6 @@
 - name: Swap CapsLock and ESC
   shell: sh -c "{{ lookup('env', 'HOME') }}/dotfiles/config/swapescape.sh"
 
-- name: Link zshrc file in ~ dir
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/zshrc"
-    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
-    state: link
-    force: yes
-
 - name: Remove old nvim user config 
   file:
     path: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"

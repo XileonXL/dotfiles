@@ -1,4 +1,6 @@
 - name: Setup zsh as main shell
+  become: true
+  become_user: root
   shell: chsh -s $(which zsh)
 
 - name: Clean oh-my-zsh
@@ -27,3 +29,10 @@
 
 - name: Install starship prompt
   shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+- name: Link zshrc file in ~ dir
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/zshrc"
+    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
+    state: link
+    force: yes
