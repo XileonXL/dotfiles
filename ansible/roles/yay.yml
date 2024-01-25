@@ -13,5 +13,6 @@
   command: yay -S --noconfirm {{ item }}
   loop:
     - autojump
-    - spotify
+    # - spotify
     - pacman-static
+    # - albert

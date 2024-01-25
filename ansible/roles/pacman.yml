@@ -1,5 +1,8 @@
 - name: Install pacman packages
   tags: pacman
+  become: yes
+  become_user: root
+  become_method: su
   pacman:
     name: "{{ item }}"
     state: present
@@ -13,17 +16,21 @@
     - docker-compose
     - docker
     - git
-    - albert
-    - plank
     - make
+    - cmake
     - gcc
     - ripgrep
-    - go
     - wget
     - terminator
     - firefox
     - telegram-desktop
     - bat
-    - zathura
-    - zathura-pdf-mupdf
-    - texlive-most
+    - fzf
+    - gnome-tweaks
+    - alacritty
+    - tmux
+    - dconf-tools
+    - xclip
+    - pkg-config
+    - npm
+    - zsh

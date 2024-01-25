@@ -17,12 +17,17 @@
     - albert
     - plank
     - make
+    - cmake
     - gcc
     - g++
     - ripgrep
-    - golang
     - wget
     - terminator
     - firefox
     - batcat
-    - zathura
+    - gnome-tweak-tool
+    - alacritty
+    - tmux
+    - dconf-editor
+    - xclip
+    - zsh

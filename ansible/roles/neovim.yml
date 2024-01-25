@@ -18,7 +18,6 @@
     - .cache/nvim
     - .local/share/nvim
 
-
 - name: Install AstroNvim
   git:
     force: yes
