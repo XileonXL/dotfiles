@@ -5,8 +5,13 @@ plugins=(
   fzf-zsh-plugin
   colored-man-pages
   sudo
-  zsh-syntax-highlighting 
+  zsh-syntax-highlighting
   zsh-autosuggestions
+  web-search
+  copypath
+  copyfile
+  copybuffer
+  jsontools
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -14,12 +19,6 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 alias cat="bat"
-alias copy="xclip -selection clipboard"
-alias updocker="docker-compose up -d --remove-orphans idtheft-services"
-alias downdocker="docker-compose down --remove-orphans --rmi local --volumes"
-alias upvpn="cat /home/jlparis/myssh | copy && sudo openvpn /home/jlparis/Downloads/awspro-Linux.ovpn"
-alias upvpneu="cat /home/jlparis/myssh | copy && sudo openvpn /home/jlparis/Downloads/awspro-Linux-germany.ovpn"
-alias upvpnmadrid='cat /home/jlparis/myssh2 | copy && sudo openvpn /home/jlparis/Downloads/awspro-Linux-madrid.ovpn'
 alias pods="watch -n 2 kubectl get pods -A"
 alias svc="watch -n 2 kubectl get svc -A"
 alias hpa="watch -n 2 kubectl get hpa -A"
