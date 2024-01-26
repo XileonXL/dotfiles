@@ -34,3 +34,4 @@
     - pkg-config
     - npm
     - zsh
+    - ranger
