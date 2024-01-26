@@ -1,0 +1,108 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Change palette of colors
+# palette = 'foo'
+
+format = "$all"
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Replace the '❯' symbol in the prompt with '➜'
+[character] 
+success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+error_symbol = '[➜](bold red)'
+vimcmd_symbol = '[V](bold green)'
+vimcmd_replace_one_symbol = '[V](bold purple)'
+vimcmd_replace_symbol = '[V](bold purple)'
+vimcmd_visual_symbol = '[V](bold yellow)'
+
+[aws]
+disabled = true
+
+[azure]
+disabled = true
+
+[c]
+disabled = true
+
+[cmake]
+disabled = true
+
+[directory]
+truncation_length = 8
+
+[docker_context]
+disabled = true
+
+[fill]
+disabled = false
+
+[gcloud]
+disabled = true
+
+[git_metrics] # Show git added/deleted lines
+disabled = true
+
+[golang]
+disabled = true
+
+[gradle]
+disabled = true
+
+[helm]
+disabled = true
+
+[java]
+disabled = true
+
+[jobs] # Show jobs in background
+disabled = false
+
+[julia]
+disabled = true
+
+[kubernetes] # Need to fix the context
+disabled = false
+style = 'blue bold'
+contexts = [
+  { context_pattern = ".*cluster/(?P<cluster_name>[\\w-]+)", context_alias = "$cluster_name"},
+]
+
+[lua]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[openstack]
+disabled = true
+
+[package]
+disabled = true
+
+[perl]
+disabled = true
+
+[php]
+disabled = true
+
+[python]
+disabled = false
+format = '[([via](bold blank) $virtualenv)]($style)'
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[scala]
+disabled = true
+
+[terraform]
+disabled = true
