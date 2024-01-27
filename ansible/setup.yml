@@ -13,6 +13,10 @@
       import_tasks: roles/yay.yml
       when: ansible_facts['os_family'] == 'Archlinux'
     
+    - name: Install brew packages
+      import_tasks: roles/brew.yml
+      when: ansible_facts['os_family'] == 'Darwin'
+    
     - name: Setup oh-my-zsh
       tags: oh-my-zsh
       import_tasks: roles/oh-my-zsh.yml

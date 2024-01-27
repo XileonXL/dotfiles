@@ -1,0 +1,9 @@
+- name: Install brew
+  command: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+- name: Install brew packages
+  command: brew install {{ item }}
+  loop:
+    - autojump
+    - spotify
+    - neovim
