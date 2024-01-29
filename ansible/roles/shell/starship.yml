@@ -1,0 +1,9 @@
+- name: Install starship prompt
+  shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+- name: Link starship config
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/starship.toml"
+    dest: "{{ lookup('env', 'HOME') }}/.config/starship.toml"
+    state: link
+    force: yes

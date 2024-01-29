@@ -1,0 +1,6 @@
+- name: Link alacritty config
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/alacritty.toml"
+    dest: "{{ lookup('env', 'HOME') }}/.config/alacritty/alacritty.toml"
+    state: link
+    force: yes

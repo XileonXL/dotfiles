@@ -1,0 +1,13 @@
+- block:
+    - name: Remove old autostart config
+      file:
+        path: "{{ lookup('env', 'HOME') }}/.config/autostart"
+        state: absent
+
+    - name: Link autostart config
+      file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/autostart"
+        dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
+        state: link
+        force: yes
+  when: ansible_system == 'Linux'

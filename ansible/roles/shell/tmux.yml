@@ -1,0 +1,13 @@
+- name: Link tmux config
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/tmux.conf"
+    dest: "{{ lookup('env', 'HOME') }}/.tmux.conf"
+    state: link
+    force: yes
+
+- name: Install TPM for tmux
+  git:
+    force: yes
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
+    depth: 1

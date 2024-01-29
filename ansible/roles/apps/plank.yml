@@ -1,0 +1,7 @@
+- name: Link plank themes in ~/.local/share/plank
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/plank"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
+    state: link
+    force: yes
+  when: ansible_system == 'Linux'

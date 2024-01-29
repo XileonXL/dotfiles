@@ -1,0 +1,30 @@
+- block:
+    - name: Link albert configuration
+      file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/albert/albert.conf"
+        dest: "{{ lookup('env', 'HOME') }}/.config/albert.conf"
+        state: link
+        force: yes
+
+    - name: Copy albert themes in Arch based
+      become: true
+      become_user: root
+      copy:
+        src: "{{ theme }}"
+        dest: /usr/share/albert/widgetsboxmodel/themes/
+      with_fileglob: "{{ lookup('env', 'HOME') }}/dotfiles/config/albert/*.qss"
+      loop_control:
+        loop_var: theme
+      when: ansible_facts['os_family'] == 'ArchLinux'
+
+    - name: Copy albert themes in Debian based
+      become: true
+      become_user: root
+      copy:
+        src: "{{ theme }}"
+        dest: /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
+      with_fileglob: "{{ lookup('env', 'HOME') }}/dotfiles/config/albert/*.qss"
+      loop_control:
+        loop_var: theme
+      when: ansible_facts['os_family'] == 'Debian'
+  when: ansible_system == 'Linux'

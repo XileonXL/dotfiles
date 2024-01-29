@@ -1,0 +1,28 @@
+- name: Purge nvim cache
+  file:
+    path: "{{ lookup('env', 'HOME') }}/{{ delete_file }}"
+    state: absent
+  loop:
+    - .cache/nvim
+    - .local/share/nvim
+  loop_control:
+    loop_var: delete_file
+
+- name: Install AstroNvim
+  git:
+    force: yes
+    repo: https://github.com/AstroNvim/AstroNvim 
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim"
+    depth: 1
+
+- name: Remove old nvim user config 
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
+    state: absent
+
+- name: Link nvim dotfiles/config dir in ~/.config
+  file:
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/nvim"
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
+    state: link
+    force: yes

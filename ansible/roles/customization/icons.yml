@@ -1,0 +1,20 @@
+- block:
+    - name: Download la-capitaine icons
+      git:
+        force: yes
+        repo: https://github.com/keeferrourke/la-capitaine-icon-theme
+        dest: "{{ lookup('env', 'HOME') }}/.icons/la-capitaine-icons-theme"
+        depth: 1
+
+    - name: Download WhiteSur icons
+      git:
+        force: yes
+        repo: https://github.com/vinceliuice/WhiteSur-icon-theme
+        dest: "{{ lookup('env', 'HOME') }}/bin/WhiteSur-icon-theme"
+        depth: 1
+
+    - name: Install WhiteSur icons
+      become: true
+      become_user: root
+      shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-icon-theme/install.sh"
+  when: ansible_system == 'Linux'

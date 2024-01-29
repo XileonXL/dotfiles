@@ -1,8 +1,3 @@
-- name: Setup zsh as main shell
-  become: true
-  become_user: root
-  shell: chsh -s $(which zsh)
-
 - name: Clean oh-my-zsh
   shell: rm -rf ~/.oh-my-zsh
 
@@ -26,20 +21,3 @@
     force: yes
     repo: https://github.com/zsh-users/zsh-syntax-highlighting
     dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-
-- name: Install starship prompt
-  shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
-
-- name: Link starship config
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/starship.toml"
-    dest: "{{ lookup('env', 'HOME') }}/.config/starship.toml"
-    state: link
-    force: yes
-
-- name: Link zshrc file in ~ dir
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/zshrc"
-    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
-    state: link
-    force: yes

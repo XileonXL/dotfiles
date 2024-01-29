@@ -1,0 +1,3 @@
+- name: Swap CapsLock and ESC
+  shell: sh -c "{{ lookup('env', 'HOME') }}/dotfiles/config/swapescape.sh"
+  when: ansible_system == 'Linux'

@@ -1,7 +1,6 @@
 - name: Install apt packages
-  tags: apt
   apt:
-    name: "{{ item }}"
+    name: "{{ package }}"
     state: present
   loop:
     - curl
@@ -32,3 +31,7 @@
     - xclip
     - zsh
     - ranger
+    - neovim
+  loop_control:
+    loop_var: package
+  when: ansible_facts['os_family'] == 'Debian'
