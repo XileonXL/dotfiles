@@ -4,4 +4,4 @@ Install git and clone this repository
 
 To use do
 
-`ansible-playbook -i hosts setup.yml --ask-become`
+`ansible-playbook -i ansible/hosts ansible/setup.yml --ask-become`
