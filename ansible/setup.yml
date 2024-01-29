@@ -1,29 +1,22 @@
 - hosts: all
   # become: yes
   tasks:
-    - name: Install apt packages
-      import_tasks: roles/apt.yml
-      when: ansible_facts['os_family'] == 'Debian'
-
-    - name: Install pacman packages
-      import_tasks: roles/pacman.yml
-      when: ansible_facts['os_family'] == 'Archlinux'
-
-    - name: Install yay packages
-      import_tasks: roles/yay.yml
-      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install packages
+      include_tasks: "{{ item }}"
+      tags: packages
+      with_fileglob: roles/packages/*.yml
     
-    - name: Install brew packages
-      import_tasks: roles/brew.yml
-      when: ansible_facts['os_family'] == 'Darwin'
-    
-    - name: Setup oh-my-zsh
-      tags: oh-my-zsh
-      import_tasks: roles/oh-my-zsh.yml
-    
-    - name: Install latest version of neovim
-      import_tasks: roles/neovim.yml
+    - name: Setup shell
+      include_tasks: "{{ item }}"
+      tags: shell
+      with_fileglob: roles/shell/*.yml
 
-    - name: Setup personal dotfiles
-      tags: dotfiles
-      import_tasks: roles/dotfiles.yml
+    - name: Setup customization
+      include_tasks: "{{ item }}"
+      tags: customization
+      with_fileglob: roles/customization/*.yml
+
+    - name: Setup apps
+      include_tasks: "{{ item }}"
+      tags: apps
+      with_fileglob: roles/apps/*.yml
