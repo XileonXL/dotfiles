@@ -22,7 +22,7 @@
 
 - name: Link nvim dotfiles/config dir in ~/.config
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/nvim"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/nvim"
     dest: "{{ lookup('env', 'HOME') }}/.config/nvim/lua/user"
     state: link
     force: yes

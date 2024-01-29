@@ -3,7 +3,7 @@
 
 - name: Link starship config
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/starship.toml"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/starship/starship.toml"
     dest: "{{ lookup('env', 'HOME') }}/.config/starship.toml"
     state: link
     force: yes

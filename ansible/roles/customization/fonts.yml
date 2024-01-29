@@ -1,6 +1,6 @@
 - name: Link fonts dir in Linux (~/.fonts)
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/fonts"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/fonts"
     dest: "{{ lookup('env', 'HOME') }}/.fonts"
     state: link
     force: yes
@@ -8,6 +8,6 @@
 
 - name: Copy fonts dir in Darwin ~/.fonts
   copy:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/fonts/"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/fonts/"
     dest: "{{ lookup('env', 'HOME') }}/Library/Fonts/"
   when: ansible_system == 'Darwin'

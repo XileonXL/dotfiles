@@ -1,6 +1,6 @@
 - name: Link tmux config
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/tmux.conf"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/tmux/tmux.conf"
     dest: "{{ lookup('env', 'HOME') }}/.tmux.conf"
     state: link
     force: yes

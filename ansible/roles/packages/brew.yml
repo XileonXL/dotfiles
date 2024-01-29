@@ -1,6 +1,9 @@
 - block:
-    - name: Install brew
-      command: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # Manually
+    # - name: Install brew
+    #   become: true
+    #   become_user: root
+    #   command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     - name: Install brew packages
       command: brew install {{ package }}
@@ -9,14 +12,14 @@
         - spotify
         - neovim
         - telegram
-        - albert
+        - alfred
         - alacritty
         - whatsapp
         - tmux
         - neovim
         - ranger
         - firefox
-        - karabiner
+        - karabiner-elements
         - alt-tab
       loop_control:
         loop_var: package

@@ -5,7 +5,7 @@
 
 - name: Link zshrc file in ~ dir
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/zshrc"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/zshrc/zshrc_{{ ansible_system | lower }}"
     dest: "{{ lookup('env', 'HOME') }}/.zshrc"
     state: link
     force: yes

@@ -1,6 +1,6 @@
 - name: Link plank themes in ~/.local/share/plank
   file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/plank"
+    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/plank"
     dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
     state: link
     force: yes
