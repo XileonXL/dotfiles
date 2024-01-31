@@ -21,10 +21,6 @@ return {
     -- this is useful for naming menus
     ["<leader>b"] = { name = "Buffers" },
 
-    -- Save / Close file
-    ["<C-s>"] = { ":w!<cr>", desc = "Save File" },
-    ["<C-q>"] = { ":q<cr>" },
-
     -- Do not copy on register when pressing x
     ["x"] = { "_x" },
 
@@ -40,8 +36,6 @@ return {
       function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
       desc = "Previous buffer",
     },
-    ["<C-w>"] = { function() require("astronvim.utils.buffer").close() end, desc = "Close buffer" },
-    ["<C-n>"] = { "<cmd>enew<cr>", desc = "New File" },
 
     -- Quit search highlight until next search
     -- ["<S-h>"] = { ":noh<cr>" },
