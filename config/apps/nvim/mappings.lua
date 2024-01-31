@@ -6,8 +6,6 @@
 return {
   -- first key is the mode
   n = {
-    -- Compile latex project
-    ["<leader>lc"] = { ":!latexmk -pdf<cr>" },
     -- second key is the lefthand side of the map
     -- mappings seen under group name "Buffer"
     ["<leader>bD"] = {
@@ -47,12 +45,6 @@ return {
 
     -- Quit search highlight until next search
     -- ["<S-h>"] = { ":noh<cr>" },
-
-    -- Telescope
-    ["<C-b>"] = { function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
-    ["<C-g>"] = { function() require("telescope.builtin").grep_string() end, desc = "Find for word under cursor" },
-    ["<C-p>"] = { function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end, desc = "Find files in all files" },
-    ["<C-f>"] = { function() require("telescope.builtin").live_grep { additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end } end, desc = "Find words in all files" },
   },
   t = {
     -- setting a mapping to false will disable it
