@@ -9,6 +9,7 @@ return {
     wrap = false, -- sets vim.opt.wrap
     list = true, -- Show hard tabs
     swapfile = false, -- Disable swap files
+    scrolloff = 10,
   },
   g = {
     mapleader = " ", -- sets vim.g.mapleader
