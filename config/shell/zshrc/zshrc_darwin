@@ -28,6 +28,7 @@ alias kget="kubectl get"
 alias vim="nvim"
 alias grep="rg"
 alias rng="ranger"
+alias k="kubectl"
 
 source /opt/homebrew/etc/profile.d/autojump.sh
 
