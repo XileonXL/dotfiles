@@ -22,6 +22,8 @@
         - karabiner-elements
         - alt-tab
         - bash
+        - watch
+        - wget
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'
