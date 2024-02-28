@@ -19,5 +19,5 @@
     - name: Configure gdm based on WhiteSur-gtk-theme
       become: true
       become_user: root
-      shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/tweaks.sh" -g -N -b "{{ lookup('env', 'HOME') }}/dotfiles/config/wallpapers/wallpaper-default.jpg"
+      shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/tweaks.sh" -g -N -b "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/wallpapers/wallpaper-default.jpg"
   when: ansible_system == 'Linux'
