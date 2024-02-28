@@ -4,7 +4,6 @@ plugins=(
   git
   fzf-zsh-plugin
   colored-man-pages
-  sudo
   zsh-syntax-highlighting
   zsh-autosuggestions
   web-search
