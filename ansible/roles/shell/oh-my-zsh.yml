@@ -1,23 +1,25 @@
-- name: Clean oh-my-zsh
-  shell: rm -rf ~/.oh-my-zsh
+- block:
+    - name: Clean oh-my-zsh
+      ansible.builtin.shell: rm -rf ~/.oh-my-zsh
 
-- name: Install oh-my-zsh
-  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+    - name: Install oh-my-zsh
+      ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 
-- name: Clone fzf-zsh-plugin
-  git:
-    force: yes
-    repo: https://github.com/unixorn/fzf-zsh-plugin.git
-    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/fzf-zsh-plugin"
+    - name: Clone fzf-zsh-plugin
+      ansible.builtin.git:
+        force: true
+        repo: https://github.com/unixorn/fzf-zsh-plugin.git
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/fzf-zsh-plugin"
 
-- name: Clone zsh-suggestions
-  git:
-    force: yes
-    repo: https://github.com/zsh-users/zsh-autosuggestions 
-    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    - name: Clone zsh-suggestions
+      ansible.builtin.git:
+        force: true
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
-- name: Clone zsh-syntax-highlighting
-  git:
-    force: yes
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting
-    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    - name: Clone zsh-syntax-highlighting
+      ansible.builtin.git:
+        force: true
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  tags: oh-my-zsh

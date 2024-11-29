@@ -1,7 +1,7 @@
 - block:
     - name: Download WhiteSur-gtk-theme
-      git:
-        force: yes
+      ansible.builtin.git:
+        force: true
         repo: https://github.com/vinceliuice/WhiteSur-gtk-theme
         dest: "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme"
         depth: 1
@@ -9,15 +9,13 @@
     - name: Install WhiteSur-gtk-theme
       become: true
       become_user: root
-      shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/install.sh"
-
-    # - name: Configure firefox based on WhiteSur-gtk-theme
-    #   become: true
-    #   become_user: root
-    #   shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/tweaks.sh" -f monterey
+      ansible.builtin.shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/install.sh"
 
     - name: Configure gdm based on WhiteSur-gtk-theme
       become: true
       become_user: root
-      shell: sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/tweaks.sh" -g -N -b "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/wallpapers/wallpaper-default.jpg"
+      ansible.builtin.shell: |
+        sh "{{ lookup('env', 'HOME') }}/bin/WhiteSur-gtk-theme/tweaks.sh" \
+        -g -N -b "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/wallpapers/wallpaper-default.jpg"
   when: ansible_system == 'Linux'
+  tags: themes

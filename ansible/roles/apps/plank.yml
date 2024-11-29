@@ -1,7 +1,9 @@
-- name: Link plank themes in ~/.local/share/plank
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/plank"
-    dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
-    state: link
-    force: yes
-  when: ansible_system == 'Linux'
+- block:
+    - name: Link plank themes in ~/.local/share/plank
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/plank"
+        dest: "{{ lookup('env', 'HOME') }}/.local/share/plank"
+        state: link
+        force: true
+      when: ansible_system == 'Linux'
+  tags: plank

@@ -1,11 +1,13 @@
-- name: Setup zsh as main shell
-  become: true
-  become_user: root
-  shell: chsh -s $(which zsh)
+- block:
+    - name: Setup zsh as main shell
+      become: true
+      become_user: root
+      ansible.builtin.shell: chsh -s $(which zsh)
 
-- name: Link zshrc file in ~ dir
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/zshrc/zshrc_{{ ansible_system | lower }}"
-    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
-    state: link
-    force: yes
+    - name: Link zshrc file in ~ dir
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/zshrc/zshrc_{{ ansible_system | lower }}"
+        dest: "{{ lookup('env', 'HOME') }}/.zshrc"
+        state: link
+        force: true
+  tags: zshrc

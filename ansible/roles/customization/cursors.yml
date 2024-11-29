@@ -1,7 +1,7 @@
 - block:
     - name: Download McMojave-cursors
-      git:
-        force: yes
+      ansible.builtin.git:
+        force: true
         repo: https://github.com/vinceliuice/McMojave-cursors
         dest: "{{ lookup('env', 'HOME') }}/bin/McMojave-cursors"
         depth: 1
@@ -9,5 +9,6 @@
     - name: Install McMojave-cursors
       become: true
       become_user: root
-      shell: sh "{{ lookup('env', 'HOME') }}/bin/McMojave-cursors/install.sh"
+      ansible.builtin.shell: sh "{{ lookup('env', 'HOME') }}/bin/McMojave-cursors/install.sh"
   when: ansible_system == 'Linux'
+  tags: cursors

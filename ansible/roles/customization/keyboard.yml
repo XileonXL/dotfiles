@@ -1,3 +1,5 @@
-- name: Swap CapsLock and ESC
-  shell: sh -c "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/keyboard/swapescape.sh"
-  when: ansible_system == 'Linux'
+- block:
+    - name: Swap CapsLock and ESC
+      ansible.builtin.shell: sh -c "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/keyboard/swapescape.sh"
+      when: ansible_system == 'Linux'
+  tags: keyboard

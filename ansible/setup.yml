@@ -1,22 +1,32 @@
-- hosts: all
+- name: Setup packages
+  hosts: all
   # become: yes
   tasks:
-    - name: Install packages
-      include_tasks: "{{ item }}"
-      tags: packages
+    - name: Include task for setup packages
+      ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob: roles/packages/*.yml
-    
-    - name: Setup shell
-      include_tasks: "{{ item }}"
-      tags: shell
+  tags: packages # Needed to be included when using tags
+
+- name: Setup shell
+  hosts: all
+  tasks:
+    - name: Include tasks for setup shell
+      ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob: roles/shell/*.yml
+  tags: shell # Needed to be included when using tags
 
-    - name: Setup customization
-      include_tasks: "{{ item }}"
-      tags: customization
+- name: Setup customization
+  hosts: all
+  tasks:
+    - name: Include tasks for setup customization
+      ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob: roles/customization/*.yml
+  tags: customization # Needed to be included when using tags
 
-    - name: Setup apps
-      include_tasks: "{{ item }}"
-      tags: apps
+- name: Setup apps
+  hosts: all
+  tasks:
+    - name: Include task for setup apps
+      ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob: roles/apps/*.yml
+  tags: apps # Needed to be included when using tags

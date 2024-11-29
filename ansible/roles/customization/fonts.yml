@@ -1,13 +1,15 @@
-- name: Link fonts dir in Linux (~/.fonts)
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/fonts"
-    dest: "{{ lookup('env', 'HOME') }}/.fonts"
-    state: link
-    force: yes
-  when: ansible_system == 'Linux'
+- block:
+    - name: Link fonts dir in Linux (~/.fonts)
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/fonts"
+        dest: "{{ lookup('env', 'HOME') }}/.fonts"
+        state: link
+        force: true
+      when: ansible_system == 'Linux'
 
-- name: Copy fonts dir in Darwin ~/.fonts
-  copy:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/fonts/"
-    dest: "{{ lookup('env', 'HOME') }}/Library/Fonts/"
-  when: ansible_system == 'Darwin'
+    - name: Copy fonts dir in Darwin ~/.fonts
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/customization/fonts/"
+        dest: "{{ lookup('env', 'HOME') }}/Library/Fonts/"
+      when: ansible_system == 'Darwin'
+  tags: fonts

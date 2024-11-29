@@ -1,17 +1,17 @@
 - block:
     - name: Clone yay repository
-      git:
-        force: yes
+      ansible.builtin.git:
+        force: true
         repo: https://aur.archlinux.org/yay.git
         dest: "{{ lookup('env', 'HOME') }}/bin/yay"
 
     - name: Make yay
-      command: makepkg -si --noconfirm
+      ansible.builtin.command: makepkg -si --noconfirm
       args:
         chdir: "{{ lookup('env', 'HOME') }}/bin/yay"
 
     - name: Install yay packages
-      command: yay -S --noconfirm {{ package }}
+      ansible.builtin.command: yay -S --noconfirm {{ package }}
       loop:
         - autojump
         - spotify
@@ -21,3 +21,4 @@
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'ArchLinux'
+  tags: yay

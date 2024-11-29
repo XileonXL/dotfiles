@@ -1,5 +1,5 @@
 - name: Install apt packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ package }}"
     state: present
   loop:
@@ -35,3 +35,4 @@
   loop_control:
     loop_var: package
   when: ansible_facts['os_family'] == 'Debian'
+  tags: apt

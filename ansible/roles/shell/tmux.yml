@@ -1,13 +1,15 @@
-- name: Link tmux config
-  file:
-    src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/tmux/tmux.conf"
-    dest: "{{ lookup('env', 'HOME') }}/.tmux.conf"
-    state: link
-    force: yes
+- block:
+    - name: Link tmux config
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/shell/tmux/tmux.conf"
+        dest: "{{ lookup('env', 'HOME') }}/.tmux.conf"
+        state: link
+        force: true
 
-- name: Install TPM for tmux
-  git:
-    force: yes
-    repo: https://github.com/tmux-plugins/tpm
-    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
-    depth: 1
+    - name: Install TPM for tmux
+      ansible.builtin.git:
+        force: true
+        repo: https://github.com/tmux-plugins/tpm
+        dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
+        depth: 1
+  tags: tmux
