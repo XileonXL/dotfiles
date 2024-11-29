@@ -1,12 +1,10 @@
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
+-- Customize neo-tree mappings
+
+---@type LazySpec
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  -- opts = function(_, opts)
-  --   opts.window.mappings = {
-  --     ["tp"] = "prev_source",
-  --     ["tn"] = "next_source",
-  --   }
-  --   opts.sources = { "filesystem", "buffers" }
-  -- end,
   opts = {
     sources = { "filesystem", "buffers" },
     window = {
