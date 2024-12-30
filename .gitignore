@@ -1,4 +1,3 @@
 .DS_STORE
 **/.DS_STORE
 config/apps/nvim/lazy-lock.json
-config/shell/zhsrc/zshrc_darwin
