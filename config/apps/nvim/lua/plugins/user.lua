@@ -1,5 +1,4 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- You can also add or configure plugins by creating files in this `plugins/` folder
 -- Here are some examples:
 
@@ -15,29 +14,13 @@ return {
     config = function() require("lsp_signature").setup() end,
   },
 
-  -- == Examples of Overriding Plugins ==
-
-  -- customize alpha options
   {
-    "goolord/alpha-nvim",
-    opts = function(_, opts)
-      -- customize the dashboard header
-      opts.section.header.val = {
-        " █████  ███████ ████████ ██████   ██████",
-        "██   ██ ██         ██    ██   ██ ██    ██",
-        "███████ ███████    ██    ██████  ██    ██",
-        "██   ██      ██    ██    ██   ██ ██    ██",
-        "██   ██ ███████    ██    ██   ██  ██████",
-        " ",
-        "    ███    ██ ██    ██ ██ ███    ███",
-        "    ████   ██ ██    ██ ██ ████  ████",
-        "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-        "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-        "    ██   ████   ████   ██ ██      ██",
-      }
-      return opts
-    end,
-    enabled = false,
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        enabled = false,
+      },
+    },
   },
 
   -- You can disable default plugins as follows:
@@ -91,9 +74,126 @@ return {
     priority = 1000,
   },
 
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  { "Mofiqul/dracula.nvim" },
+  { "EdenEast/nightfox.nvim" },
+  {
+    "rockyzhang24/arctic.nvim",
+    branch = "v2",
+    dependencies = { "rktjmp/lush.nvim" },
+  },
+  {
+    "navarasu/onedark.nvim",
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require("onedark").setup {
+        style = "cool",
+      }
+    end,
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  { "rose-pine/neovim", name = "rose-pine" },
+
   {
     "m4xshen/hardtime.nvim",
     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
     opts = {},
   },
+
+  -- CODECOMPANION
+  -- {
+  --   "olimorris/codecompanion.nvim",
+  --   opts = {
+  --     strategies = {
+  --       -- Change the default chat adapter
+  --       chat = {
+  --         adapter = "copilot",
+  --       },
+  --       inline = {
+  --         adapter = "copilot",
+  --       },
+  --       cmd = {
+  --         adapter = "copilot",
+  --       },
+  --     },
+  --     adapters = {
+  --       openai = function()
+  --         return require("codecompanion.adapters").extend("openai", {
+  --           schema = {
+  --             model = {
+  --               default = "gpt-4.1",
+  --             },
+  --           },
+  --         })
+  --       end,
+  --       gepetto = function() return {} end,
+  --     },
+  --     opts = {
+  --       -- Set debug logging
+  --       log_level = "DEBUG",
+  --     },
+  --   },
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "ravitemer/mcphub.nvim",
+  --   },
+  --   extensions = {
+  --     mcphub = {
+  --       callback = "mcphub.extensions.codecompanion",
+  --       opts = {
+  --         make_vars = true,
+  --         make_slash_commands = true,
+  --         show_result_in_chat = true,
+  --       },
+  --     },
+  --   },
+  -- },
+  -- {
+  --   "MeanderingProgrammer/render-markdown.nvim",
+  --   ft = { "markdown", "codecompanion" },
+  -- },
+  -- {
+  --   "OXY2DEV/markview.nvim",
+  --   lazy = false,
+  --   opts = {
+  --     preview = {
+  --       filetypes = { "markdown", "codecompanion" },
+  --       ignore_buftypes = {},
+  --     },
+  --   },
+  -- },
+  -- {
+  --   "echasnovski/mini.diff",
+  --   config = function()
+  --     local diff = require "mini.diff"
+  --     diff.setup {
+  --       -- Disabled by default
+  --       source = diff.gen_source.none(),
+  --     }
+  --   end,
+  -- },
+  -- {
+  --   "HakonHarnes/img-clip.nvim",
+  --   opts = {
+  --     filetypes = {
+  --       codecompanion = {
+  --         prompt_for_file_name = false,
+  --         template = "[Image]($FILE_PATH)",
+  --         use_absolute_path = true,
+  --       },
+  --     },
+  --   },
+  -- },
+
+  -- -- Copilot
+  -- {
+  --   "github/copilot.vim",
+  --   "zbirenbaum/copilot.lua",
+  -- },
 }
