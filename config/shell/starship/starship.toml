@@ -5,7 +5,7 @@
 add_newline = true
 
 # Change palette of colors
-# palette = 'foo'
+palette = 'nightfly'
 
 format = "$all"
 
@@ -13,8 +13,8 @@ format = "$all"
 scan_timeout = 10
 
 # Replace the '❯' symbol in the prompt with '➜'
-[character] 
-success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+[character]
+success_symbol = '[➜](bold green)'             # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
 error_symbol = '[➜](bold red)'
 vimcmd_symbol = '[V](bold green)'
 vimcmd_replace_one_symbol = '[V](bold purple)'
@@ -34,7 +34,7 @@ disabled = true
 disabled = true
 
 [directory]
-truncation_length = 8
+truncation_length = 4
 
 [docker_context]
 disabled = true
@@ -70,7 +70,7 @@ disabled = true
 disabled = false
 style = 'blue bold'
 contexts = [
-  { context_pattern = ".*cluster/(?P<cluster_name>[\\w-]+)", context_alias = "$cluster_name"},
+  { context_pattern = ".*cluster/(?P<cluster_name>[\\w-]+)", context_alias = "$cluster_name" },
 ]
 
 [lua]
@@ -106,3 +106,9 @@ disabled = true
 
 [terraform]
 disabled = true
+
+[palettes.nightfly]
+fern = "#87d787"
+lavender = "#b0b2f4"
+orange = "#f09479"
+red = "#f07496"
