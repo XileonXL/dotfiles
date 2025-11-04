@@ -14,7 +14,6 @@
       ansible.builtin.command: yay -S --noconfirm {{ package }}
       loop:
         - autojump
-        - spotify
         - pacman-static
         - albert
         - tldr

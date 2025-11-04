@@ -35,6 +35,7 @@
     - zsh
     - ranger
     - neovim
+    - spotify-launcher
   loop_control:
     loop_var: package
   when: ansible_facts['os_family'] == 'ArchLinux'
