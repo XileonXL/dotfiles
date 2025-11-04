@@ -74,36 +74,38 @@ return {
     priority = 1000,
   },
 
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  { "Mofiqul/dracula.nvim" },
-  { "EdenEast/nightfox.nvim" },
-  {
-    "rockyzhang24/arctic.nvim",
-    branch = "v2",
-    dependencies = { "rktjmp/lush.nvim" },
-  },
-  {
-    "navarasu/onedark.nvim",
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require("onedark").setup {
-        style = "cool",
-      }
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
-  { "rose-pine/neovim", name = "rose-pine" },
-
   {
     "m4xshen/hardtime.nvim",
     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
     opts = {},
   },
+
+  -- THEMES
+  -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  -- { "Mofiqul/dracula.nvim" },
+  -- { "EdenEast/nightfox.nvim" },
+  -- {
+  --   "rockyzhang24/arctic.nvim",
+  --   branch = "v2",
+  --   dependencies = { "rktjmp/lush.nvim" },
+  -- },
+  -- {
+  --   "navarasu/onedark.nvim",
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     require("onedark").setup {
+  --       style = "cool",
+  --     }
+  --   end,
+  -- },
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
+  -- { "rose-pine/neovim", name = "rose-pine" },
+  --
 
   -- CODECOMPANION
   -- {
