@@ -29,6 +29,9 @@
         - ncdu
         - up # Ultimate Pipelines
         - navi # Cheatsheets
+        - helm
+        - helmfile
+        - git-crypt
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'
