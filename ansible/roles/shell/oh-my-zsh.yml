@@ -22,4 +22,11 @@
         force: true
         repo: https://github.com/zsh-users/zsh-syntax-highlighting
         dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+    - name: Clone zsh-vi-mode
+      ansible.builtin.git:
+        force: true
+        repo: https://github.com/jeffreytse/zsh-vi-mode
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/zsh-vi-mode"
+
   tags: oh-my-zsh
