@@ -20,7 +20,6 @@
     - gcc
     - ripgrep
     - wget
-    - terminator
     - firefox
     - telegram-desktop
     - bat
@@ -28,7 +27,7 @@
     - gnome-tweaks
     - alacritty
     - tmux
-    - dconf-tools
+    - dconf-editor
     - xclip
     - pkg-config
     - npm
@@ -36,7 +35,16 @@
     - ranger
     - neovim
     - spotify-launcher
+    - yay
+    - base-devel
+    - discord
+    - starship
+    - go
+    - jq
+    - aws-cli
+    - azure-cli
+    - kubectl
   loop_control:
     loop_var: package
-  when: ansible_facts['os_family'] == 'ArchLinux'
+  when: ansible_facts['os_family'] == 'Archlinux'
   tags: pacman

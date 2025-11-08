@@ -8,7 +8,7 @@
   tags: packages # Needed to be included when using tags
 
 - name: Setup shell
-  hosts: all
+  hosts: all 
   tasks:
     - name: Include tasks for setup shell
       ansible.builtin.include_tasks: "{{ item }}"

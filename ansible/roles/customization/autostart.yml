@@ -1,14 +1,14 @@
-- block:
-    - name: Remove old autostart config
-      ansible.builtin.file:
-        path: "{{ lookup('env', 'HOME') }}/.config/autostart"
-        state: absent
-
-    - name: Link autostart config
-      ansible.builtint.file:
-        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/autostart"
-        dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
-        state: link
-        force: true
-  when: ansible_system == 'Linux'
-  tags: autostart
+# - block:
+#     - name: Remove old autostart config
+#       ansible.builtin.file:
+#         path: "{{ lookup('env', 'HOME') }}/.config/autostart"
+#         state: absent
+#
+#     - name: Link autostart config
+#       ansible.builtint.file:
+#         src: "{{ lookup('env', 'HOME') }}/dotfiles/config/autostart"
+#         dest: "{{ lookup('env', 'HOME') }}/.config/autostart"
+#         state: link
+#         force: true
+#   when: ansible_system == 'Linux'
+#   tags: autostart

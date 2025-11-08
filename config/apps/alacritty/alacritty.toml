@@ -25,7 +25,7 @@ style = "Regular"
 
 [terminal.shell]
 args = ["new-session", "-A", "-s", "main"]
-program = "/opt/homebrew/bin/tmux"
+program = "/usr/bin/tmux"
 
 # [window]
 # blur = true
