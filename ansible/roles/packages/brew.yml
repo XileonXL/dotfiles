@@ -34,6 +34,13 @@
         - flameshot
         - orbstack
         - visual-studio-code
+        - go
+        - typescript
+        - terraform
+        - bat
+        - gpg
+        - chatgpt
+        - bitwarden
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'

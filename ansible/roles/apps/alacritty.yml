@@ -1,7 +1,7 @@
 - block:
     - name: Link alacritty config
       ansible.builtin.file:
-        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/alacritty/alacritty.toml"
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/alacritty/alacritty_{{ ansible_system | lower }}.toml"
         dest: "{{ lookup('env', 'HOME') }}/.config/alacritty/alacritty.toml"
         state: link
         force: true

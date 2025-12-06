@@ -1,4 +1,4 @@
 - block:
     - name: Add user to docker group
-      ansible.builtin.shell: sudo usermod -aG docker $USER
+      ansible.builtin.shell: echo "HOLA" #sudo usermod -aG docker $USER
   tags: docker

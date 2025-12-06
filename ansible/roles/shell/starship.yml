@@ -1,6 +1,6 @@
 - block:
-    - name: Install starship prompt
-      ansible.builtin.shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
+    # - name: Install starship prompt
+    #  ansible.builtin.shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
 
     - name: Link starship config
       ansible.builtin.file:
