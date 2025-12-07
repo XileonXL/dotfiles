@@ -42,6 +42,7 @@
         - chatgpt
         - bitwarden
         - htop
+        - ripgrep
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'
