@@ -27,9 +27,9 @@ return {
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
 
-  { import = "astrocommunity.completion.copilot-cmp" },
-  { import = "astrocommunity.completion.copilot-vim-cmp" },
-  { import = "astrocommunity.completion.avante-nvim" },
+  -- { import = "astrocommunity.completion.copilot-cmp" },
+  -- { import = "astrocommunity.completion.copilot-vim-cmp" },
+  -- { import = "astrocommunity.completion.avante-nvim" },
 
   -- import/override with your plugins folder
 }

@@ -6,7 +6,7 @@
     #   command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     - name: Install brew packages
-      ansible.builtin.command: brew install {{ package }}
+      ansible.builtin.command: brew install {{ package }} --no-quarantine
       loop:
         - autojump
         - spotify
@@ -43,6 +43,8 @@
         - bitwarden
         - htop
         - ripgrep
+        - fzf
+        - TheBoredTeam/boring-notch/boring-notch
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'

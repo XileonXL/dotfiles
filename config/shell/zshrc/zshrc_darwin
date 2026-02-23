@@ -41,9 +41,10 @@ export PATH="$PATH:/Users/jlparis/.local/bin"
 
 export GPG_TTY=$(tty)
 
-oclogin() {
-  export KUBECONFIG="" &&
-  ocplogin $1 &&
-  cp ~/.kube/config ~/.kube/clusters/$1 &&
-  export KUBECONFIG=~/.kube/clusters/$1
-}
+export AWS_DEFAULT_PROFILE=hh_tf
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
