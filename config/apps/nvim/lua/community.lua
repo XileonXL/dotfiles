@@ -30,6 +30,7 @@ return {
   -- { import = "astrocommunity.completion.copilot-cmp" },
   -- { import = "astrocommunity.completion.copilot-vim-cmp" },
   -- { import = "astrocommunity.completion.avante-nvim" },
+  -- { import = "astrocommunity.editing-support.codecompanion-nvim" },
 
   -- import/override with your plugins folder
 }

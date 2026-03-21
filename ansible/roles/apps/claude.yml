@@ -1,0 +1,41 @@
+- block:
+    - name: Claude Code | Remove existing ~/.claude if it is a plain directory (first run)
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.claude"
+        state: absent
+      when: >
+        not (lookup('pipe', 'test -L ' + lookup('env', 'HOME') + '/.claude && echo yes || echo no') == 'yes')
+
+    - name: Claude Code | Symlink ~/.claude to dotfiles
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/claude"
+        dest: "{{ lookup('env', 'HOME') }}/.claude"
+        state: link
+        force: true
+
+    - name: Claude Code | Create runtime directories (not versioned)
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.claude/{{ runtime_dir }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - sessions
+        - cache
+        - backups
+        - downloads
+        - file-history
+        - session-env
+        - shell-snapshots
+        - paste-cache
+        - ide
+        - projects
+        - plugins/marketplaces
+      loop_control:
+        loop_var: runtime_dir
+
+    - name: Claude Code | Ensure statusline.sh is executable
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.claude/statusline.sh"
+        mode: '0755'
+
+  tags: claude

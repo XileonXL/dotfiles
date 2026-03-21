@@ -44,6 +44,10 @@ export GPG_TTY=$(tty)
 export AWS_DEFAULT_PROFILE=hh_tf
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
+function zvm_after_init() {
+  bindkey '^p' autosuggest-accept
+}
+
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
