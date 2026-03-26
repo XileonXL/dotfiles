@@ -99,6 +99,11 @@ tags = {
 - Add `count` or `for_each` for repeatable resources
 - Avoid `null_resource` and `local-exec` unless no native resource exists
 
+## Language
+
+- All generated code, inline comments, variable descriptions, output descriptions, and README content must be written in **English**
+- This applies regardless of the language used in the conversation
+
 ## Output Format
 
 Provide each file in a separate fenced code block labeled with the filename:
