@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly SCRIPT_NAME="$(basename "${0}")"
+
+log_info()  { printf '[INFO]  %s\n' "$*"; }
+log_error() { printf '[ERROR] %s\n' "$*" >&2; }
+
+usage() {
+  cat <<EOF
+Usage: ${SCRIPT_NAME} [OPTIONS] <name-substring>
+
+Search for running EC2 instances by Name tag substring and open an SSM session.
+
+Options:
+  --profile <profile>   AWS CLI profile to use
+  --region  <region>    AWS region to target
+  -h, --help            Show this help message and exit
+
+Arguments:
+  <name-substring>      Substring to match against the EC2 instance Name tag
+
+Examples:
+  ${SCRIPT_NAME} web-prod
+  ${SCRIPT_NAME} --profile staging --region us-east-1 bastion
+EOF
+}
+
+main() {
+  command -v aws &>/dev/null \
+    || { log_error "aws CLI not found in PATH"; exit 1; }
+  command -v jq &>/dev/null \
+    || { log_error "jq not found in PATH"; exit 1; }
+
+  local profile="" region="" search_term=""
+  local -a aws_extra_args=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --profile) profile="$2"; shift 2 ;;
+      --region)  region="$2";  shift 2 ;;
+      -h|--help) usage; exit 0 ;;
+      -*)        log_error "Unknown flag: $1"; exit 1 ;;
+      *)
+        if [[ -z "${search_term}" ]]; then
+          search_term="$1"
+        else
+          log_error "Unexpected argument: $1"
+          exit 1
+        fi
+        shift ;;
+    esac
+  done
+
+  [[ -z "${search_term}" ]] && { log_error "Missing required search term."; exit 1; }
+  [[ -n "${profile}" ]] && aws_extra_args+=( --profile "${profile}" )
+  [[ -n "${region}" ]]  && aws_extra_args+=( --region  "${region}"  )
+
+  log_info "Searching for running instances matching: *${search_term}*"
+
+  local raw_json
+  raw_json=$(
+    aws ec2 describe-instances \
+      "${aws_extra_args[@]}" \
+      --filters \
+        "Name=tag:Name,Values=*${search_term}*" \
+        "Name=instance-state-name,Values=running" \
+      --query 'Reservations[].Instances[].[InstanceId, Tags[?Key==`Name`]|[0].Value]' \
+      --output json
+  ) || { log_error "Failed to query EC2"; exit 1; }
+
+  local matches
+  matches=$(jq -r '.[] | "\(.[0])\t\(.[1] // "(unnamed)")"' <<< "${raw_json}")
+
+  if [[ -z "${matches}" ]]; then
+    log_error "No running instances found matching: *${search_term}*"
+    exit 1
+  fi
+
+  local match_count chosen_line instance_id instance_name
+  match_count=$(wc -l <<< "${matches}" | tr -d ' ')
+
+  if [[ "${match_count}" -eq 1 ]]; then
+    chosen_line="${matches}"
+  elif command -v fzf &>/dev/null; then
+    chosen_line=$(
+      fzf --header=$'INSTANCE ID\t\tNAME' \
+          --prompt="Select instance > " \
+          --height=~40% --layout=reverse --no-multi \
+          <<< "${matches}"
+    ) || { log_error "No instance selected."; exit 1; }
+  else
+    local -a menu_items=()
+    while IFS= read -r line; do menu_items+=("${line}"); done <<< "${matches}"
+    printf 'Multiple instances found:\n' >&2
+    local choice
+    chosen_line=""
+    PS3="Select number: "
+    select choice in "${menu_items[@]}"; do
+      [[ -n "${choice}" ]] && { chosen_line="${choice}"; break; }
+      printf 'Invalid selection.\n' >&2
+    done
+    [[ -z "${chosen_line}" ]] && { log_error "No instance selected."; exit 1; }
+  fi
+
+  instance_id=$(   awk -F'\t' '{print $1}' <<< "${chosen_line}")
+  instance_name=$( awk -F'\t' '{print $2}' <<< "${chosen_line}")
+
+  log_info "Connecting to: ${instance_name} (${instance_id})"
+  aws ssm start-session "${aws_extra_args[@]}" --target "${instance_id}"
+}
+
+main "$@"

@@ -1,0 +1,14 @@
+- block:
+    - name: Ensure ~/.local/bin exists
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.local/bin"
+        state: directory
+        mode: '0755'
+
+    - name: Link ffh to ~/.local/bin
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/scripts/ffh"
+        dest: "{{ lookup('env', 'HOME') }}/.local/bin/ffh"
+        state: link
+        force: true
+  tags: scripts
