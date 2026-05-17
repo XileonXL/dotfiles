@@ -1,0 +1,14 @@
+- block:
+    - name: Create ghostty config directory
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.config/ghostty"
+        state: directory
+        mode: '0755'
+
+    - name: Link ghostty config
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/ghostty/ghostty_{{ ansible_system | lower }}"
+        dest: "{{ lookup('env', 'HOME') }}/.config/ghostty/config"
+        state: link
+        force: true
+  tags: ghostty

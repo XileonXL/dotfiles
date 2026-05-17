@@ -26,6 +26,7 @@
     - fzf
     - gnome-tweaks
     - alacritty
+    - ghostty
     - tmux
     - dconf-editor
     - xclip

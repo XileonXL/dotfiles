@@ -14,6 +14,7 @@
         - telegram
         - alfred
         - alacritty
+        - ghostty
         - whatsapp
         - tmux
         - neovim
@@ -46,6 +47,9 @@
         - fzf
         - TheBoredTeam/boring-notch/boring-notch
         - maccy
+        - nikitabobko/tap/aerospace
+        - felixkratz/formulae/borders
+        - barutsrb/tap/omniwm
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'

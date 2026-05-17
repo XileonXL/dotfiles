@@ -15,7 +15,14 @@ return {
     -- AstroUI allows you to easily modify highlight groups easily for any and all colorschemes
     highlights = {
       init = { -- this table overrides highlights in all themes
-        -- Normal = { bg = "#000000" },
+        Normal = { bg = "NONE" },
+        NormalNC = { bg = "NONE" },
+        TabLineSel = { fg = "#eeeeee", bg = "#1d3b53", bold = true },
+        TabLine = { fg = "#7c8f8f", bg = "#011627" },
+        TabLineFill = { bg = "#011627" },
+        SignColumn = { bg = "NONE" },
+        LineNr = { fg = "#4b6479", bg = "NONE" },
+        FoldColumn = { fg = "#87a3ba", bg = "NONE" },
       },
       astrodark = { -- a table of overrides/changes when applying the astrotheme theme
         -- Normal = { bg = "#000000" },
