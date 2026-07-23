@@ -14,4 +14,10 @@ config/apps/claude/paste-cache/
 config/apps/claude/ide/
 config/apps/claude/projects/
 config/apps/claude/plugins/marketplaces/
+config/apps/claude/plugins/blocklist.json
+config/apps/claude/plugins/known_marketplaces.json
 config/apps/claude/history.jsonl
+config/apps/claude/settings.local.json
+config/apps/claude/mcp-needs-auth-cache.json
+config/apps/claude/.last-cleanup
+config/apps/claude/.last-update-result.json
