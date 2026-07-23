@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly SCRIPT_NAME="$(basename "${0}")"
+
+tmp_file=""
+cleanup() { [[ -n "${tmp_file}" ]] && rm -f "${tmp_file}"; }
+trap cleanup EXIT INT TERM
+
+log_info()  { printf '[INFO]  %s\n' "$*"; }
+log_error() { printf '[ERROR] %s\n' "$*" >&2; }
+
+usage() {
+  cat <<EOF
+Usage: ${SCRIPT_NAME} [OPTIONS]
+
+Generate a commit message from the staged diff using Claude, following the
+commit conventions defined in this repo's CLAUDE.md (falls back to the
+global Conventional Commits rule if the repo has none). Opens the message
+in \$EDITOR for review, then runs 'git commit' (GPG signing applies as
+configured in git).
+
+Options:
+  -h, --help   Show this help message and exit
+
+Examples:
+  git add -p
+  ${SCRIPT_NAME}
+EOF
+}
+
+main() {
+  if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    usage
+    exit 0
+  fi
+
+  command -v claude &>/dev/null \
+    || { log_error "claude CLI not found in PATH"; exit 1; }
+  command -v git &>/dev/null \
+    || { log_error "git not found in PATH"; exit 1; }
+
+  git rev-parse --is-inside-work-tree &>/dev/null \
+    || { log_error "not inside a git repository"; exit 1; }
+
+  local diff
+  diff="$(git diff --staged)"
+  [[ -n "${diff}" ]] \
+    || { log_error "no staged changes (git add first)"; exit 1; }
+
+  log_info "Generating commit message with Claude..."
+
+  local files
+  files="$(git diff --staged --name-only)"
+
+  local prompt
+  prompt="Generate a git commit message for this staged diff.
+
+Staged files:
+${files}
+
+Rules:
+- Read this repo's CLAUDE.md, if present, for the commit message convention.
+- If the convention is scoped to a specific path prefix (e.g. only applies to files under some directory), apply it ONLY when every staged file listed above falls under that prefix.
+- If the staged files fall outside that prefix, or the repo has no CLAUDE.md convention, use Conventional Commits (type(scope): description, imperative mood, lowercase, subject < 72 chars, no trailing period) instead.
+- Write a subject line only. Add a body ONLY if the diff mixes multiple unrelated changes, or the reasoning behind the change (the WHY) is not obvious from the diff alone. When you add a body: leave one blank line after the subject, wrap at 72 chars, explain why not what, use bullet points for multiple points.
+- Output format is mandatory: wrap the commit message between the exact markers <<<COMMIT_MSG>>> and <<<END_COMMIT_MSG>>>, with nothing else inside them, and no other text anywhere in your response outside those markers.
+
+Diff:
+${diff}"
+
+  local raw_output
+  raw_output="$(claude -p --model claude-haiku-4-5-20251001 "${prompt}")"
+
+  local message
+  message="$(printf '%s\n' "${raw_output}" | sed -n '/<<<COMMIT_MSG>>>/,/<<<END_COMMIT_MSG>>>/p' | sed '1d;$d')"
+
+  [[ -n "${message}" ]] \
+    || { log_error "claude returned an empty or malformed message"; exit 1; }
+
+  tmp_file="$(mktemp)"
+
+  printf '%s\n' "${message}" > "${tmp_file}"
+
+  git commit -e -F "${tmp_file}"
+}
+
+main "$@"
