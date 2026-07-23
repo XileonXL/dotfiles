@@ -11,4 +11,11 @@
         dest: "{{ lookup('env', 'HOME') }}/.local/bin/ffh"
         state: link
         force: true
+    
+    - name: Link gcai to ~/.local/bin
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/scripts/gcai"
+        dest: "{{ lookup('env', 'HOME') }}/.local/bin/gcai"
+        state: link
+        force: true
   tags: scripts

@@ -8,9 +8,10 @@ log_error() { printf '[ERROR] %s\n' "$*" >&2; }
 
 usage() {
   cat <<EOF
-Usage: ${SCRIPT_NAME} [OPTIONS] <name-substring>
+Usage: ${SCRIPT_NAME} [OPTIONS] <term> [<term> ...]
 
-Search for running EC2 instances by Name tag substring and open an SSM session.
+Search for running EC2 instances by Name tag and open an SSM session.
+Multiple terms are joined with wildcards: ffh multiserver pro → *multiserver*pro*
 
 Options:
   --profile <profile>   AWS CLI profile to use
@@ -18,11 +19,12 @@ Options:
   -h, --help            Show this help message and exit
 
 Arguments:
-  <name-substring>      Substring to match against the EC2 instance Name tag
+  <term> [<term> ...]   One or more substrings to match against the Name tag
 
 Examples:
   ${SCRIPT_NAME} web-prod
-  ${SCRIPT_NAME} --profile staging --region us-east-1 bastion
+  ${SCRIPT_NAME} multiserver pro
+  ${SCRIPT_NAME} --profile staging --region us-east-1 bastion worker
 EOF
 }
 
@@ -32,8 +34,8 @@ main() {
   command -v jq &>/dev/null \
     || { log_error "jq not found in PATH"; exit 1; }
 
-  local profile="" region="" search_term=""
-  local -a aws_extra_args=()
+  local profile="" region=""
+  local -a aws_extra_args=() terms=()
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -41,29 +43,26 @@ main() {
       --region)  region="$2";  shift 2 ;;
       -h|--help) usage; exit 0 ;;
       -*)        log_error "Unknown flag: $1"; exit 1 ;;
-      *)
-        if [[ -z "${search_term}" ]]; then
-          search_term="$1"
-        else
-          log_error "Unexpected argument: $1"
-          exit 1
-        fi
-        shift ;;
+      *)         terms+=("$1"); shift ;;
     esac
   done
 
-  [[ -z "${search_term}" ]] && { log_error "Missing required search term."; exit 1; }
+  [[ ${#terms[@]} -eq 0 ]] && { log_error "Missing required search term."; exit 1; }
   [[ -n "${profile}" ]] && aws_extra_args+=( --profile "${profile}" )
   [[ -n "${region}" ]]  && aws_extra_args+=( --region  "${region}"  )
 
-  log_info "Searching for running instances matching: *${search_term}*"
+  # Join terms with * to build the filter pattern: *term1*term2*...*
+  local pattern
+  pattern="$(printf '*%s' "${terms[@]}")*"
+
+  log_info "Searching for running instances matching: ${pattern}"
 
   local raw_json
   raw_json=$(
     aws ec2 describe-instances \
       "${aws_extra_args[@]}" \
       --filters \
-        "Name=tag:Name,Values=*${search_term}*" \
+        "Name=tag:Name,Values=${pattern}" \
         "Name=instance-state-name,Values=running" \
       --query 'Reservations[].Instances[].[InstanceId, Tags[?Key==`Name`]|[0].Value]' \
       --output json
@@ -73,7 +72,7 @@ main() {
   matches=$(jq -r '.[] | "\(.[0])\t\(.[1] // "(unnamed)")"' <<< "${raw_json}")
 
   if [[ -z "${matches}" ]]; then
-    log_error "No running instances found matching: *${search_term}*"
+    log_error "No running instances found matching: ${pattern}"
     exit 1
   fi
 
