@@ -1,5 +1,9 @@
-font-family = UbuntuMono Nerd Font
-font-size = 18
+font-family = "UbuntuMono Nerd Font"
+# font-family = "Hack Nerd Font Mono"
+# font-family = "FiraCode Nerd Font Mono"
+# font-family = "JetBrainsMono Nerd Font"
+# font-family = "Iosevka Nerd Font Mono"
+font-size = 22
 
 background-opacity = 0.85
 background-blur-radius = 20
@@ -31,3 +35,6 @@ cursor-color = #9ca1aa
 cursor-text = #080808
 selection-background = #b2ceee
 selection-foreground = #080808
+
+keybind = cmd+d=unbind
+keybind = cmd+shift+d=unbind
