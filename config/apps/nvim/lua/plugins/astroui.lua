@@ -23,6 +23,7 @@ return {
         SignColumn = { bg = "NONE" },
         LineNr = { fg = "#4b6479", bg = "NONE" },
         FoldColumn = { fg = "#87a3ba", bg = "NONE" },
+        NormalFloat = { fg = "#c3ccdc", bg = "NONE" },
       },
       astrodark = { -- a table of overrides/changes when applying the astrotheme theme
         -- Normal = { bg = "#000000" },
