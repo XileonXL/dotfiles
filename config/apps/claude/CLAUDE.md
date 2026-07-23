@@ -16,6 +16,7 @@ Senior DevOps / Platform Engineer: XileonXL, Zsh, Neovim.
 
 ## Critical Rules — Always Active
 - NEVER add "Co-Authored-By", AI attribution, or generated-by footers — EVER
+- NEVER use emojis in any output: strings, comments, log messages, script output, or any file content — ever
 - All standards in `~/.claude/rules/` — load automatically by file type or globally
 - NEVER run destructive infra commands (`terraform apply/destroy`, `kubectl apply/delete`, `helm install/upgrade/uninstall`, `helmfile sync/apply/destroy`) unless explicitly requested by the user
 - NEVER propose applying infra changes as a next step — only plan, validate, diff, and lint unless told otherwise
