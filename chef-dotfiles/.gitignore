@@ -1,0 +1,34 @@
+# Chef local mode cache
+.chef/local-mode-cache/
+.chef/*.pem
+.chef/encrypted_data_bag_secret
+
+# Chef Zero files
+nodes/
+clients/
+.zero-knife.rb
+
+# Berkshelf
+Berksfile.lock
+cookbooks/*
+!cookbooks/workstation
+
+# Test Kitchen
+.kitchen/
+.kitchen.local.yml
+
+# Editor files
+*.swp
+*.swo
+*~
+.DS_Store
+.idea/
+*.iml
+.vscode/
+
+# Temporary files
+tmp/
+.tmp/
+
+# Log files
+*.log
