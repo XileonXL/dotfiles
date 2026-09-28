@@ -17,9 +17,28 @@ Senior DevOps / Platform Engineer: XileonXL, Zsh, Neovim.
 ## Critical Rules — Always Active
 - NEVER add "Co-Authored-By", AI attribution, or generated-by footers — EVER
 - NEVER use emojis in any output: strings, comments, log messages, script output, or any file content — ever
+- ALWAYS write files in English — code, comments, README and all docs, commit messages, log strings. Spanish is for conversation only. No exceptions, no repo-specific carve-outs
 - All standards in `~/.claude/rules/` — load automatically by file type or globally
 - NEVER run destructive infra commands (`terraform apply/destroy`, `kubectl apply/delete`, `helm install/upgrade/uninstall`, `helmfile sync/apply/destroy`) unless explicitly requested by the user
 - NEVER propose applying infra changes as a next step — only plan, validate, diff, and lint unless told otherwise
+
+## 0. Response Brevity
+
+**Answer what was asked. Nothing else.**
+
+- Default to the shortest response that fully answers the question. A table or a few
+  bullets beats prose.
+- Do NOT explain mechanisms, background, or rationale unless asked. If a caveat is
+  load-bearing, one line.
+- Do NOT offer alternative approaches, follow-up work, or "what I'd do next" unless
+  asked. One recommendation, stated plainly.
+- Do NOT restate the question, summarize what you just did, or recap prior turns.
+- When a decision is genuinely needed, ask the question alone — no menu of options
+  with trade-offs attached.
+- Findings go first. If context is truly required, it goes after, and it is short.
+
+This governs conversational output only. It never shortens the actual work: code,
+configs and docs stay complete and correct.
 
 ## 1. Think Before Coding
 

@@ -73,18 +73,51 @@ Every output must have `description`. Mark sensitive outputs with `sensitive = t
 
 ## Tagging (AWS)
 
-All taggable AWS resources must include:
+Tags that are identical across every resource in a state go in `default_tags` on the
+provider, not in each resource:
+
 ```hcl
-tags = merge(var.common_tags, {
-  Name = "<resource-identifier>"
-})
+provider "aws" {
+  region = var.aws_zone
+
+  default_tags {
+    tags = {
+      ManagedBy   = "Terraform"
+      Environment = var.aws_environment
+    }
+  }
+}
 ```
 
-`common_tags` must include at minimum:
+Per-resource tags carry only what varies:
+```hcl
+tags = {
+  Name    = "<resource-identifier>"
+  Project = "<project>"
+}
+```
+
+Required on every taggable resource, whether through `default_tags` or directly:
+- `Name`
 - `Environment`
 - `Project`
-- `ManagedBy = "terraform"`
+- `ManagedBy = "Terraform"`
 - `Owner`
+
+`ManagedBy = "Terraform"` with a capital T: it is a product name, and it leaves room for
+other values (`CloudFormation`, `Console`) to read consistently. There is no formal AWS or
+HashiCorp standard here; this is convention.
+
+**Never write `Terraform = "true"`.** It states the same thing as a boolean under a key
+that cannot express anything else.
+
+**Tagging is per provider, not universal.** Datadog tags are a flat `key:value` list in
+lowercase (`managed-by:terraform`, `environment:pro`) and the Datadog provider has no
+`default_tags`. Do not carry the AWS spelling across.
+
+Datadog documents which characters are legal in a tag but does not prescribe `-` over `_`.
+Pick one and keep it: renaming a tag breaks every monitor, dashboard and saved search that
+filters on it.
 
 ## Security
 
