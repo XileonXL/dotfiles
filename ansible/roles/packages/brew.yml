@@ -38,6 +38,7 @@
         - go
         - typescript
         - terraform
+        - opentofu
         - bat
         - gpg
         - chatgpt
