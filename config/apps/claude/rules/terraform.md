@@ -1,3 +1,11 @@
+---
+description: Terraform, OpenTofu and Terragrunt rules
+paths:
+  - "**/*.tf"
+  - "**/*.tfvars"
+  - "**/*.hcl"
+---
+
 # Terraform / OpenTofu / Terragrunt Rules
 
 ## Applies To
@@ -9,6 +17,9 @@ Files: `*.tf`, `*.tfvars`, `*.hcl`, `terragrunt.hcl`
 - Module names in `source`: lowercase, hyphenated (`my-module`)
 - Workspace names: `<env>` (e.g. `prod`, `staging`, `dev`)
 - AWS resource name tags and Terraform identifiers must match: if the resource is `aws_s3_bucket.audit_logs`, the Name tag is `audit-logs`
+- Cloud resource names never repeat the resource type: an RDS cluster is always a database, so it is `<project>-<env>`, not `<project>-<env>-database`. Add a suffix only to tell apart resources of the same type, and make it the purpose or the thing it serves (`-documents`, `-tfstate`, `-database` for the security group of the database), never the type (`-bucket`, `-sg`, `-cluster`, `-queue`) nor the technology behind it (`-aurora`, `-postgres`), which can change while the purpose stays
+- Never put the AWS account ID in a resource name (bucket names included). For globally unique names, pick a distinctive name and choose another if it is taken
+- Descriptions are short and stable: say what the resource belongs to, not how it behaves (`Aurora bidsenseai-pro`, not `Aurora cluster: no ingress, access only via the Data API`). Many descriptions are immutable (security groups, subnet groups) and a detailed one forces a replacement every time the behavior changes
 
 ## Module Structure
 
@@ -67,8 +78,8 @@ Every output must have `description`. Mark sensitive outputs with `sensitive = t
 
 ## State
 
-- Remote state only: S3 + DynamoDB locking
-- State bucket per environment; never share state between envs
+- Remote state only: S3 with native locking (`use_lockfile = true`). No DynamoDB lock table
+- One state bucket per project; each environment uses its own key in it (`<env>/terraform.tfstate`). Never share a state file between envs
 - Never edit state manually; use `terraform state mv` if needed and document why
 
 ## Tagging (AWS)
@@ -98,11 +109,14 @@ tags = {
 ```
 
 Required on every taggable resource, whether through `default_tags` or directly:
-- `Name`
 - `Environment`
 - `Project`
 - `ManagedBy = "Terraform"`
-- `Owner`
+
+`Name` only on resources without a name of their own, where the console shows the tag as
+the display name: VPCs, subnets, route tables, EBS volumes, EC2 instances. Never on
+resources that already have a name attribute (security groups, S3 buckets, RDS clusters,
+Lambda functions, SQS queues, IAM roles): the tag would duplicate it and can drift.
 
 `ManagedBy = "Terraform"` with a capital T: it is a product name, and it leaves room for
 other values (`CloudFormation`, `Console`) to read consistently. There is no formal AWS or

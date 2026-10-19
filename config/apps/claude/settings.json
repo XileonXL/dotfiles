@@ -94,7 +94,7 @@
       "Bash(base64 *)",
       "Bash(tar -t*)",
       "Bash(unzip -l *)",
-      "Bash(curl -s*)",
+      "Bash(curl *)",
       "Bash(bash -c *)",
       "Bash(bash *)",
       "Bash(sh -c *)",
@@ -167,7 +167,9 @@
       "Bash(tail *)",
       "Bash(cut *)",
       "Bash(awk *)",
-      "Bash(sed *)"
+      "Bash(sed *)",
+      "Read(**/.env.example)",
+      "Edit(**/.env.example)"
     ],
     "deny": [
       "Bash(rm -rf *)",
@@ -247,7 +249,6 @@
       "Bash(pkill *)",
       "Bash(chown *)",
       "Bash(> *)",
-      "Bash(curl * -o *)",
       "Bash(curl -X POST*)",
       "Bash(curl -X PUT*)",
       "Bash(curl -X DELETE*)",
@@ -288,7 +289,6 @@
       "Bash(helmfile sync *)",
       "Bash(helmfile destroy *)",
       "Read(**/.env)",
-      "Read(**/.env.*)",
       "Read(**/.credentials*)",
       "Read(**/*secret*)",
       "Read(**/*.pem)",
@@ -297,10 +297,6 @@
       "Read(**/*_token)",
       "Read(**/*.token)",
       "Read(**/*-token.json)",
-      "Edit(.env)",
-      "Edit(.env.*)",
-      "Edit(*/.env)",
-      "Edit(*/.env.*)",
       "Edit(**/*.pem)",
       "Edit(**/*.key)",
       "Edit(**/*.cert)",
@@ -311,7 +307,24 @@
       "Read(~/.ssh/**)",
       "Read(~/.gnupg/**)",
       "Read(~/.aws/**)",
-      "Read(~/.kube/**)"
+      "Read(~/.kube/**)",
+      "Edit(**/.env)",
+      "Edit(**/.env.local)",
+      "Edit(**/.env.*.local)",
+      "Edit(**/.env.development)",
+      "Edit(**/.env.dev)",
+      "Edit(**/.env.production)",
+      "Edit(**/.env.prod)",
+      "Edit(**/.env.staging)",
+      "Edit(**/.env.test)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(**/.env.development)",
+      "Read(**/.env.dev)",
+      "Read(**/.env.production)",
+      "Read(**/.env.prod)",
+      "Read(**/.env.staging)",
+      "Read(**/.env.test)"
     ]
   },
   "model": "opus",
@@ -323,11 +336,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'f=\"${CLAUDE_TOOL_INPUT_FILE_PATH:-${CLAUDE_TOOL_INPUT_PATH:-}}\"; case \"$f\" in *.tf|*.tfvars) cd \"$(dirname \"$f\")\" && terraform fmt . 2>&1 | sed \"s/^/[terraform fmt] /\" ;; esac'"
+            "command": "bash -c 'f=$(jq -r \".tool_input.file_path // empty\"); case \"$f\" in *.tf|*.tfvars) cd \"$(dirname \"$f\")\" && terraform fmt . 2>&1 | sed \"s/^/[terraform fmt] /\" ;; esac'"
           },
           {
             "type": "command",
-            "command": "bash -c 'f=\"${CLAUDE_TOOL_INPUT_FILE_PATH:-${CLAUDE_TOOL_INPUT_PATH:-}}\"; case \"$f\" in *.sh|*.bash) shellcheck --severity=warning \"$f\" 2>&1 | sed \"s/^/[shellcheck] /\" ;; esac'"
+            "command": "bash -c 'f=$(jq -r \".tool_input.file_path // empty\"); case \"$f\" in *.sh|*.bash) shellcheck --severity=warning \"$f\" 2>&1 | sed \"s/^/[shellcheck] /\" ;; esac'"
           }
         ]
       }
@@ -341,6 +354,6 @@
   "language": "es",
   "alwaysThinkingEnabled": false,
   "effortLevel": "medium",
-  "autoMemoryEnabled": true,
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "autoMemoryEnabled": true
 }

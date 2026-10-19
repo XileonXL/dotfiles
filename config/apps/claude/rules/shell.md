@@ -1,3 +1,10 @@
+---
+description: Shell and Bash scripting rules
+paths:
+  - "**/*.sh"
+  - "**/*.bash"
+---
+
 # Shell / Bash Rules
 
 ## Applies To

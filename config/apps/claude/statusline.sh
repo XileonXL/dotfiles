@@ -17,19 +17,23 @@ SEP="${SUB} · ${RST}"
 json=$(cat)
 
 # Extract all fields in one jq call (nested under cost.* and context_window.*)
-IFS=$'\t' read -r model ctx_pct ctx_used ctx_total duration_ms lines_added lines_removed cost_usd cwd worktree_name agent_name < <(
+IFS=$'\t' read -r model ctx_pct ctx_used ctx_total duration_ms lines_added lines_removed cost_usd rl5_pct rl5_reset rl7_pct rl7_reset cwd worktree_name agent_name < <(
   echo "$json" | jq -r '[
     (.model.display_name // "Unknown"),
-    (.context_window.used_percentage // 0),
-    (.context_window.total_input_tokens // 0),
+    (.context_window.used_percentage // 0 | round),
+    (.context_window.current_usage | if . then (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0) else 0 end),
     (.context_window.context_window_size // 200000),
     (.cost.total_duration_ms // 0),
     (.cost.total_lines_added // 0),
     (.cost.total_lines_removed // 0),
     (.cost.total_cost_usd // 0),
-    (.cwd // ""),
-    (.worktree.name // ""),
-    (.agent.name // "")
+    (.rate_limits.five_hour.used_percentage | if . == null then "-" else round end),
+    (.rate_limits.five_hour.resets_at // "-"),
+    (.rate_limits.seven_day.used_percentage | if . == null then "-" else round end),
+    (.rate_limits.seven_day.resets_at // "-"),
+    (.cwd // "-"),
+    (.worktree.name // "-"),
+    (.agent.name // "-")
   ] | @tsv' 2>/dev/null
 )
 
@@ -42,9 +46,14 @@ duration_ms=${duration_ms:-0}
 lines_added=${lines_added:-0}
 lines_removed=${lines_removed:-0}
 cost_usd=${cost_usd:-0}
-cwd=${cwd:-$PWD}
-worktree_name=${worktree_name:-}
-agent_name=${agent_name:-}
+# "-" is a placeholder: read with a tab IFS would collapse empty fields
+[[ "${rl5_pct:--}" == "-" ]] && rl5_pct=""
+[[ "${rl5_reset:--}" == "-" ]] && rl5_reset=""
+[[ "${rl7_pct:--}" == "-" ]] && rl7_pct=""
+[[ "${rl7_reset:--}" == "-" ]] && rl7_reset=""
+[[ "${cwd:--}" == "-" ]] && cwd=$PWD
+[[ "${worktree_name:--}" == "-" ]] && worktree_name=""
+[[ "${agent_name:--}" == "-" ]] && agent_name=""
 
 # Directory name
 dir=$(basename "$cwd")
@@ -58,14 +67,29 @@ secs=$((total_secs % 60))
 ctx_used_k=$((ctx_used / 1000))
 ctx_total_k=$((ctx_total / 1000))
 
+# Color for a percentage: green <50, yellow <75, red otherwise
+pct_color() {
+  if (($1 < 50)); then
+    printf '%s' "$GREEN"
+  elif (($1 < 75)); then
+    printf '%s' "$YELLOW"
+  else
+    printf '%s' "$RED"
+  fi
+}
+
+# Seconds -> XhYm (or Ym when <1h)
+fmt_hm() {
+  local s=$1
+  if ((s >= 3600)); then
+    printf '%dh%dm' $((s / 3600)) $((s % 3600 / 60))
+  else
+    printf '%dm' $((s / 60))
+  fi
+}
+
 # Context bar color
-if ((ctx_pct < 50)); then
-  bar_color="$GREEN"
-elif ((ctx_pct < 75)); then
-  bar_color="$YELLOW"
-else
-  bar_color="$RED"
-fi
+bar_color=$(pct_color "$ctx_pct")
 
 # Progress bar (10 chars)
 filled=$((ctx_pct / 10))
@@ -78,11 +102,11 @@ bar+="${RST}"
 # Git info with 5s cache
 git_info=""
 if [[ -d "$cwd/.git" ]] || git -C "$cwd" rev-parse --git-dir &>/dev/null; then
-  cache_key=$(echo "$cwd" | md5sum | cut -d' ' -f1)
+  cache_key=$(echo "$cwd" | cksum | cut -d' ' -f1)
   cache_file="/tmp/claude-statusline-git-${cache_key}"
   now=$(date +%s)
 
-  if [[ -f "$cache_file" ]] && ((now - $(stat -c %Y "$cache_file" 2>/dev/null || echo 0) < 5)); then
+  if [[ -f "$cache_file" ]] && ((now - $(stat -c %Y "$cache_file" 2>/dev/null || stat -f %m "$cache_file" 2>/dev/null || echo 0) < 5)); then
     git_info=$(cat "$cache_file")
   else
     branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null || echo "")
@@ -111,6 +135,29 @@ out+="${SEP}${TEXT} ${dir}${RST}"
 if ((ctx_pct > 0)); then
   out+="${SEP}${bar} ${bar_color}${ctx_pct}%${RST} ${SUB}${ctx_used_k}k/${ctx_total_k}k${RST}"
 fi
+
+# Rate limits: only show windows that have data
+rl_parts=""
+now=$(date +%s)
+if [[ -n "$rl5_pct" ]]; then
+  rl_parts+="${SUB}5h ${RST}$(pct_color "$rl5_pct")${rl5_pct}%${RST}"
+  if [[ "$rl5_reset" =~ ^[0-9]+$ ]] && ((rl5_reset - now > 0)); then
+    rl_parts+=" ${SUB}($(fmt_hm $((rl5_reset - now))))${RST}"
+  fi
+fi
+if [[ -n "$rl7_pct" ]]; then
+  [[ -n "$rl_parts" ]] && rl_parts+="${SEP}"
+  rl_parts+="${SUB}7d ${RST}$(pct_color "$rl7_pct")${rl7_pct}%${RST}"
+  if [[ "$rl7_reset" =~ ^[0-9]+$ ]] && ((rl7_reset - now > 0)); then
+    left=$((rl7_reset - now))
+    if ((left >= 86400)); then
+      rl_parts+=" ${SUB}($((left / 86400))d)${RST}"
+    else
+      rl_parts+=" ${SUB}($(fmt_hm "$left"))${RST}"
+    fi
+  fi
+fi
+[[ -n "$rl_parts" ]] && out+="${SEP}${rl_parts}"
 
 # Lines changed: only when >0
 if ((lines_added > 0 || lines_removed > 0)); then

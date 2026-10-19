@@ -1,3 +1,11 @@
+---
+description: Jenkins pipeline rules
+paths:
+  - "**/Jenkinsfile"
+  - "**/Jenkinsfile.*"
+  - "**/*.jenkinsfile"
+---
+
 # Jenkins Pipeline Rules
 
 ## Applies To

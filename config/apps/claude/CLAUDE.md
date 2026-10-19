@@ -105,9 +105,9 @@ The main agent (Opus) is an **orchestrator**. It delegates execution to subagent
 - Read plans, CLAUDE.md, configs, and coordination files (<50 lines) directly when needed
 
 **Main agent delegates:**
-- Read/Edit/Write source files → implementer or Explore
+- Read/Edit/Write source files → specialized agent, general-purpose or Explore
 - Grep/Glob searches → Explore agent
-- Builds, tests, linters → implementer or general-purpose agent
+- Builds, tests, linters → general-purpose agent
 - Codebase exploration → Explore agent
 
 ## Delegation Routing
@@ -125,11 +125,18 @@ The main agent (Opus) is an **orchestrator**. It delegates execution to subagent
 
 ### Generic agents
 - Find files, code, structure → **Explore** (Haiku)
-- Implement approved plans → **implementer** (Sonnet)
-- Code review → **code-reviewer** (Sonnet)
-- Architecture decisions → **arch-advisor** (Opus)
-- Tests, builds, CLI → **general-purpose** (Sonnet via `model: "sonnet"`)
+- Implement approved plans, tests, builds, CLI → **general-purpose** (Sonnet via `model: "sonnet"`)
+- Code review → `/code-review` skill
+- Architecture decisions → **Plan**
 - Independent subtasks → launch agents **in parallel**
+
+## Review After Changes
+Run these automatically as soon as a block of work is finished, without waiting for a commit request:
+1. `/code-review` on the diff (correctness)
+2. `/simplify` on the diff (reuse, simplicity, efficiency)
+3. `/infra-review` when the diff touches Terraform/OpenTofu, Helm, GHA, Docker or shell
+4. `/security-review` when it touches credentials, IAM, network exposure, external input or downloads
+Fix the findings and re-run the checks. Only then report the block as done and ready to commit.
 
 ## Token Efficiency
 - Concise. Delegate everything — subagent context is isolated
