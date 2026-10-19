@@ -29,6 +29,13 @@ alias vim="nvim"
 alias grep="rg"
 alias rng="ranger"
 alias k="kubectl"
+alias tf="terraform"
+alias tfa="terraform apply"
+alias tg="terragrunt"
+alias tga="terragrunt apply"
+alias ot="tofu"
+alias ota="tofu apply"
+alias v="nvim"
 
 source /opt/homebrew/etc/profile.d/autojump.sh
 
@@ -41,7 +48,6 @@ export PATH="$PATH:/Users/jlparis/.local/bin"
 
 export GPG_TTY=$(tty)
 
-export AWS_DEFAULT_PROFILE=hh_tf
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 function zvm_after_init() {
@@ -52,3 +58,10 @@ function zvm_after_init() {
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+. "/Users/jlparis/.acme.sh/acme.sh.env"
+export PATH="$HOME/go/bin:$PATH"
+
+export TG_LOG_CUSTOM_FORMAT="%prefix(path=short-relative,color=gradient,prefix='[',suffix='] ')%tf-path(path=filename,color=cyan,suffix=': ')%msg"
+eval "$(direnv hook zsh)"
