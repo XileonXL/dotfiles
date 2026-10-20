@@ -206,6 +206,11 @@ return {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
     config = true,
+    opts = {
+      -- Unset TMUX so Claude Code does not wrap OSC 52 in tmux passthrough,
+      -- which the Neovim terminal renders as visible base64 garbage
+      terminal_cmd = "env -u TMUX claude",
+    },
     keys = {
       { "<leader>a", nil, desc = "AI/Claude Code" },
       { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
