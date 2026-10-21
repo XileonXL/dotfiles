@@ -344,6 +344,26 @@
           }
         ]
       }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$TMUX_PANE\" ] && printf '\\a' > \"$(tmux display -p -t \"$TMUX_PANE\" '#{pane_tty}')\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$TMUX_PANE\" ] && printf '\\a' > \"$(tmux display -p -t \"$TMUX_PANE\" '#{pane_tty}')\""
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
