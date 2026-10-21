@@ -18,3 +18,7 @@ description: Git commit message conventions
 - `fix(cart): prevent duplicate items on rapid clicks`
 - `refactor(api): extract shared validation middleware`
 - `chore(deps): bump vitest to v3`
+
+## Pushing
+- Commit when a block of work is done; never push
+- Never remind the user to push or mention pending pushes — just report the commit hash
