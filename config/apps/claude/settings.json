@@ -13,6 +13,7 @@
   "includeGitInstructions": false,
   "permissions": {
     "allow": [
+      "Bash(*)",
       "Bash(git *)",
       "Bash(gh *)",
       "Bash(terraform fmt *)",
@@ -74,9 +75,6 @@
       "Bash(if *)",
       "Bash(command -v *)",
       "Bash(type *)",
-      "Bash(perl -pi *)",
-      "Bash(perl -0pi *)",
-      "Bash(perl -ne *)",
       "Bash(rg *)",
       "Bash(fd *)",
       "Bash(bat *)",
@@ -94,8 +92,6 @@
       "Bash(tar -t*)",
       "Bash(unzip -l *)",
       "Bash(curl *)",
-      "Bash(node *)",
-      "Bash(npx *)",
       "Bash(make -n *)",
       "Bash(test *)",
       "Bash(mktemp *)",
@@ -132,7 +128,6 @@
       "Bash(helmfile lint *)",
       "Bash(docker *)",
       "Bash(docker-compose *)",
-      "Bash(python3 *)",
       "Bash(pip *)",
       "Bash(uv *)",
       "Bash(pre-commit *)",
@@ -149,7 +144,6 @@
       "Bash(cp *)",
       "Bash(mv *)",
       "Bash(touch *)",
-      "Bash(chmod +x *)",
       "Bash(cat *)",
       "Bash(echo *)",
       "Bash(pwd)",
@@ -173,7 +167,6 @@
       "Bash(chmod 777 *)",
       "Bash(dd *)",
       "Bash(mkfs *)",
-      "Bash(git push*)",
       "Bash(git reset --hard *)",
       "Bash(git clean -fd*)",
       "Bash(git clean -f*)",
@@ -189,7 +182,6 @@
       "Bash(gh repo delete*)",
       "Bash(gh secret set*)",
       "Bash(gh workflow run*)",
-      "Bash(docker push*)",
       "Bash(aws * create-*)",
       "Bash(aws * delete-*)",
       "Bash(aws * put-*)",
@@ -302,7 +294,6 @@
       "Read(**/.env.prod)",
       "Read(**/.env.staging)",
       "Read(**/.env.test)",
-      "Bash(git -C * push*)",
       "Bash(aws secretsmanager get-secret-value*)",
       "Bash(aws ssm get-parameter* --with-decryption*)",
       "Bash(aws ecr get-login-password*)"
@@ -324,7 +315,10 @@
       "Bash(gh api *)",
       "Bash(gh pr create*)",
       "Bash(gh pr comment*)",
-      "Bash(brew uninstall *)"
+      "Bash(brew uninstall *)",
+      "Bash(git push*)",
+      "Bash(git -C * push*)",
+      "Bash(docker push*)"
     ]
   },
   "model": "opus",
@@ -381,5 +375,47 @@
   "alwaysThinkingEnabled": false,
   "effortLevel": "medium",
   "tui": "fullscreen",
-  "autoMemoryEnabled": true
+  "autoMemoryEnabled": true,
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Bash(uv run *) in /Users/jlparis/personal/subastas-boe",
+      "Bash(tofu plan:*) in /Users/jlparis/personal/subastas-boe/infra",
+      "Bash(tofu validate:*) in /Users/jlparis/personal/subastas-boe/infra",
+      "Bash(shellcheck:*) in /Users/jlparis/personal/subastas-boe"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(tofu apply:*) in /Users/jlparis/personal/subastas-boe/infra",
+      "Bash(tofu destroy:*) in /Users/jlparis/personal/subastas-boe/infra",
+      "Bash(aws s3 rm:*) targeting bidsenseai-pro-documents"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: AWS (account used for this project via `AWS_PROFILE=bidsenseai`), region eu-north-1 (org SCP restricts to eu-north-1 plus global services in us-east-1)",
+      "**Repository visibility**: not queryable via gh (origin remote `github-personal:XileonXL/bidsenseai.git` not derivable as a plain owner/repo URL) — assume private per shipped default, but treat as unverified",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: AWS Secrets Manager (Aurora managed master password) and SSM Parameter Store SecureString (Anthropic API key and other service secrets); local `.env` files are gitignored and never committed",
+      "**Default / protected branches**: main (default) — protection status not queryable via gh for this repo",
+      "**CI/CD deploy targets**: None configured (no GitHub Actions/CI deploy pipeline found in recon; deploys appear to be manual OpenTofu runs from the laptop)",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine (the user's laptop) with open internet",
+      "**Source control**: this repo (`/Users/jlparis/personal/subastas-boe`) and its remote `github-personal:XileonXL/bidsenseai.git` (origin) only",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: bidsenseai-pro-documents (config-derived — not a confirmed upload destination; uploads of local data still require confirmation)",
+      "**Key internal services**: RDS Data API (Aurora Serverless v2 PostgreSQL, single `pro` environment, accessed via HTTPS+IAM, no VPC/NAT); SQS (sqs.eu-north-1.amazonaws.com) for work queues; EventBridge Scheduler for triggers",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: `.env` / `.envrc` files (gitignored, local secrets); `infra/.terraform/terraform.tfstate` and `infra/bootstrap/.terraform/terraform.tfstate` (may embed resource identifiers/secrets); auction documents and extracted personal data (debtor names/addresses) under `document`/`extraction` tables and S3 `bidsenseai-pro-documents` — GDPR-sensitive, never published beyond what the product publicly shows; share only with cleared project maintainers",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any AWS resource or namespace named with `pro` or `production` as a whole segment — the project's single AWS environment is named `pro` (resources `bidsenseai-pro-<name>`), so treat all `bidsenseai-pro-*` AWS resources (Lambda, S3, Aurora, SQS, SSM, Secrets Manager) as production-sensitive despite the short name",
+      "**Protected deployment namespaces / environments**: the `pro` AWS environment for this project (all `bidsenseai-pro-*` resources) — this is the project's only environment, so all infra changes there are production changes",
+      "**Protected IaC scopes**: `infra/` OpenTofu state and resources targeting the `pro` environment (IAM, RDS/Aurora, S3, Lambda, SQS, EventBridge) — the SCP-restricted eu-north-1 region and `bidsenseai-pro-*` naming are the markers",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (DevOps/platform engineering — Terraform/OpenTofu, Kubernetes/Helm, CI/CD, Python automation per global CLAUDE.md)",
+      "**Trusted repo**: `/Users/jlparis/personal/subastas-boe` (BidSense AI) and its `origin` remote `github-personal:XileonXL/bidsenseai.git` — visibility unverified, treat as private per shipped default but scope pushes conservatively",
+      "**Org-specific CLIs**: `tofu` (OpenTofu, used in place of `terraform`), `uv` (Python package/dependency manager), `aws` CLI with `AWS_PROFILE=bidsenseai`, `bidsenseai-db` (migration CLI), `cat-load` / `market-prices archive` (project data-loading CLIs)",
+      "routine under services/*/ prefix: CLI entrypoints for boe-scraper, doc-extractor, catastro-enricher, market-prices run from the laptop against the `pro` AWS resources are an expected, routine workflow for this project"
+    ]
+  }
 }
