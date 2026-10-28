@@ -13,6 +13,7 @@
   "includeGitInstructions": false,
   "permissions": {
     "allow": [
+      "Bash(*)",
       "Bash(git *)",
       "Bash(gh *)",
       "Bash(terraform fmt *)",
@@ -74,9 +75,6 @@
       "Bash(if *)",
       "Bash(command -v *)",
       "Bash(type *)",
-      "Bash(perl -pi *)",
-      "Bash(perl -0pi *)",
-      "Bash(perl -ne *)",
       "Bash(rg *)",
       "Bash(fd *)",
       "Bash(bat *)",
@@ -94,8 +92,6 @@
       "Bash(tar -t*)",
       "Bash(unzip -l *)",
       "Bash(curl *)",
-      "Bash(node *)",
-      "Bash(npx *)",
       "Bash(make -n *)",
       "Bash(test *)",
       "Bash(mktemp *)",
@@ -132,7 +128,6 @@
       "Bash(helmfile lint *)",
       "Bash(docker *)",
       "Bash(docker-compose *)",
-      "Bash(python3 *)",
       "Bash(pip *)",
       "Bash(uv *)",
       "Bash(pre-commit *)",
@@ -149,7 +144,6 @@
       "Bash(cp *)",
       "Bash(mv *)",
       "Bash(touch *)",
-      "Bash(chmod +x *)",
       "Bash(cat *)",
       "Bash(echo *)",
       "Bash(pwd)",
@@ -173,7 +167,6 @@
       "Bash(chmod 777 *)",
       "Bash(dd *)",
       "Bash(mkfs *)",
-      "Bash(git push*)",
       "Bash(git reset --hard *)",
       "Bash(git clean -fd*)",
       "Bash(git clean -f*)",
@@ -189,7 +182,6 @@
       "Bash(gh repo delete*)",
       "Bash(gh secret set*)",
       "Bash(gh workflow run*)",
-      "Bash(docker push*)",
       "Bash(aws * create-*)",
       "Bash(aws * delete-*)",
       "Bash(aws * put-*)",
@@ -302,7 +294,6 @@
       "Read(**/.env.prod)",
       "Read(**/.env.staging)",
       "Read(**/.env.test)",
-      "Bash(git -C * push*)",
       "Bash(aws secretsmanager get-secret-value*)",
       "Bash(aws ssm get-parameter* --with-decryption*)",
       "Bash(aws ecr get-login-password*)"
@@ -324,7 +315,10 @@
       "Bash(gh api *)",
       "Bash(gh pr create*)",
       "Bash(gh pr comment*)",
-      "Bash(brew uninstall *)"
+      "Bash(brew uninstall *)",
+      "Bash(git push*)",
+      "Bash(git -C * push*)",
+      "Bash(docker push*)"
     ]
   },
   "model": "opus",
@@ -381,5 +375,33 @@
   "alwaysThinkingEnabled": false,
   "effortLevel": "medium",
   "tui": "fullscreen",
-  "autoMemoryEnabled": true
+  "autoMemoryEnabled": true,
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Read-only infrastructure commands are allowed in any repository: tofu, terraform and terragrunt plan, validate, fmt and show; tflint, shellcheck, ansible-lint, and ansible-playbook with --check or --syntax-check",
+      "Running the current repository's own linters, type checkers and tests through uv run is allowed"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Running tofu, terraform or terragrunt apply, destroy or import needs an explicit request in the current conversation: the user reads the plan and decides",
+      "Mutating a Kubernetes cluster (kubectl apply, delete or patch; helm install, upgrade, uninstall or rollback; helmfile apply, sync or destroy) needs an explicit request in the current conversation",
+      "Running ansible-playbook without --check or --syntax-check needs an explicit request in the current conversation: it changes real machines"
+    ],
+    "environment": [
+      "**Organization**: None configured. One engineer using this machine for both personal and work repositories",
+      "**Primary use of Claude Code**: software development and infrastructure automation (Terraform/OpenTofu/Terragrunt, Kubernetes/Helm, Ansible, CI/CD, Python and Bash tooling)",
+      "**Trusted repo**: the repository of the current working directory, including its git worktrees",
+      "**Source control**: the remotes already configured in the current repository. Any other remote is outside the trust boundary",
+      "**Repository visibility**: some personal repositories are public. Assume anything committed may be published: no secrets and no site-specific details in tracked files",
+      "**Cloud provider(s)**: AWS, through named CLI profiles. The active profile decides the account",
+      "**Secrets management**: AWS Secrets Manager and SSM Parameter Store. Local .env files are git-ignored and never committed",
+      "**Internal sharing / snippet hosting**: None configured. Public paste and gist services are outside the trust boundary",
+      "**Host containment**: None configured. Ordinary developer laptop with open internet",
+      "**Org-specific CLIs**: tofu, terraform, terragrunt, aws, kubectl, helm, helmfile, ansible-playbook, uv",
+      "**Sensitive remote targets**: any cloud resource, cluster, namespace or host named with pro, prod or production as a whole segment",
+      "**Protected IaC scopes**: every Terraform/OpenTofu/Terragrunt state and every Ansible inventory. Planning and linting are routine; applying is the user's decision",
+      "**Sensitive data locations & audiences**: .env and .envrc files, Terraform/OpenTofu state files, SSH and GPG keys, cloud credentials. Never shared outside the machine"
+    ]
+  }
 }
