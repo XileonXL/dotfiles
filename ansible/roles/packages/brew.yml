@@ -52,6 +52,8 @@
         - felixkratz/formulae/borders
         - barutsrb/tap/omniwm
         - claude-code
+        - imagemagick
+        - pngpaste
       loop_control:
         loop_var: package
   when: ansible_facts['os_family'] == 'Darwin'

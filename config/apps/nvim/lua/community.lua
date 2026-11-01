@@ -26,6 +26,7 @@ return {
   { import = "astrocommunity.pack.vue" },
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
+  { import = "astrocommunity.media.img-clip-nvim" },
 
   -- { import = "astrocommunity.completion.copilot-cmp" },
   -- { import = "astrocommunity.completion.copilot-vim-cmp" },

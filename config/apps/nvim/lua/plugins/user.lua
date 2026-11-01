@@ -20,6 +20,26 @@ return {
       dashboard = {
         enabled = false,
       },
+      image = {
+        doc = {
+          enabled = true,
+          float = false,
+        },
+      },
+    },
+  },
+
+  {
+    "HakonHarnes/img-clip.nvim",
+    keys = {
+      { "<C-v>", "<cmd>PasteImage<cr>", mode = "i", ft = "markdown", desc = "Paste image from clipboard" },
+    },
+    opts = {
+      default = {
+        drag_and_drop = {
+          enabled = false,
+        },
+      },
     },
   },
 
@@ -181,18 +201,6 @@ return {
   --       source = diff.gen_source.none(),
   --     }
   --   end,
-  -- },
-  -- {
-  --   "HakonHarnes/img-clip.nvim",
-  --   opts = {
-  --     filetypes = {
-  --       codecompanion = {
-  --         prompt_for_file_name = false,
-  --         template = "[Image]($FILE_PATH)",
-  --         use_absolute_path = true,
-  --       },
-  --     },
-  --   },
   -- },
 
   -- -- Copilot
