@@ -21,6 +21,7 @@ Senior DevOps / Platform Engineer: XileonXL, Zsh, Neovim.
 - All standards in `~/.claude/rules/` — load automatically by file type or globally
 - NEVER run destructive infra commands (`terraform apply/destroy`, `kubectl apply/delete`, `helm install/upgrade/uninstall`, `helmfile sync/apply/destroy`) unless explicitly requested by the user
 - NEVER propose applying infra changes as a next step — only plan, validate, diff, and lint unless told otherwise
+- The first commit of each session is made by the user: stage the files and hand over the `git commit` command instead of running it, unless told to commit
 
 ## 0. Response Brevity
 
