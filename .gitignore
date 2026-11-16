@@ -20,5 +20,6 @@ config/apps/claude/mcp-needs-auth-cache.json
 config/apps/claude/.last-cleanup
 config/apps/claude/.last-update-result.json
 config/apps/claude/state/
+config/apps/claude/skills/synced/
 config/apps/claude/policy-limits.json*
 config/apps/claude/remote-settings.json*
