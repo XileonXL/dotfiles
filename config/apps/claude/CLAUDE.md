@@ -134,10 +134,9 @@ The main agent does small work itself and delegates by size, not by file type.
 
 ## Review After Changes
 Run these automatically as soon as a block of work is finished, without waiting for a commit request:
-1. `/code-review` on the diff (correctness)
-2. `/simplify` on the diff (reuse, simplicity, efficiency)
-3. `/infra-review` when the diff touches Terraform/OpenTofu, Helm, GHA, Docker or shell
-4. `/security-review` when it touches credentials, IAM, network exposure, external input or downloads
+1. `/code-review --fix` on the diff (correctness, reuse, simplicity, efficiency)
+2. `/infra-review` when the diff touches Terraform/OpenTofu, Helm, GHA, Docker or shell
+3. `/security-review` when it touches credentials, IAM, network exposure, external input or downloads
 Fix the findings and re-run the checks. Only then report the block as done and ready to commit.
 
 ## Token Efficiency
