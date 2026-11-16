@@ -98,7 +98,7 @@ For multi-step tasks, state a brief plan:
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ## Orchestrator Pattern
-The main agent (Opus) is an **orchestrator**. It delegates execution to subagents.
+The main agent is an **orchestrator**. It delegates execution to subagents.
 
 **Main agent does:**
 - Break user requests into subtasks and delegate
@@ -123,6 +123,7 @@ The main agent (Opus) is an **orchestrator**. It delegates execution to subagent
 - Dockerfiles and Docker Compose → **docker-engineer**
 - YAML/JSON configs (ArgoCD, Renovate, pre-commit, etc.) → **yaml-engineer**
 - Ansible playbooks, roles, inventories → **ansible-engineer**
+- Web frontends (Astro, Svelte, Vue, React, HTML/CSS) → **frontend-engineer**
 
 ### Generic agents
 - Find files, code, structure → **Explore** (Haiku)

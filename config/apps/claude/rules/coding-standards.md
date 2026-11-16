@@ -1,7 +1,5 @@
 ---
 description: Coding standards enforcement for source code
-paths:
-  - "**/*.tf"
 ---
 
 # Coding Standards

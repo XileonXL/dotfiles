@@ -3,8 +3,8 @@
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "85",
     "MAX_MCP_OUTPUT_TOKENS": "20000",
-    "DISABLE_TELEMETRY": "1",
-    "DISABLE_ERROR_REPORTING": "1"
+    "DISABLE_ERROR_REPORTING": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE": "1"
   },
   "attribution": {
     "commit": "",
@@ -321,20 +321,16 @@
       "Bash(docker push*)"
     ]
   },
-  "model": "opus",
+  "model": "fable",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'f=$(jq -r \".tool_input.file_path // empty\"); case \"$f\" in *.tf|*.tfvars) cd \"$(dirname \"$f\")\" && terraform fmt . 2>&1 | sed \"s/^/[terraform fmt] /\" ;; esac'"
-          },
-          {
-            "type": "command",
-            "command": "bash -c 'f=$(jq -r \".tool_input.file_path // empty\"); case \"$f\" in *.sh|*.bash) shellcheck --severity=warning \"$f\" 2>&1 | sed \"s/^/[shellcheck] /\" ;; esac'"
+            "command": "~/.claude/hooks/post-edit.sh"
           }
         ]
       }
@@ -377,6 +373,7 @@
   "effortLevel": "medium",
   "tui": "fullscreen",
   "autoMemoryEnabled": true,
+  "switchModelsOnFlag": false,
   "autoMode": {
     "allow": [
       "$defaults",
