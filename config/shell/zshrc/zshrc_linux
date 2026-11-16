@@ -37,3 +37,5 @@ export GIT_EDITOR=nvim
 export EDITOR=nvim
 
 [ -z "$TMUX" ] && { tmux attach || exec tmux new-session; }
+
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
