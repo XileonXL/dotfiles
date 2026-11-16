@@ -382,8 +382,7 @@
     "soft_deny": [
       "$defaults",
       "Running tofu, terraform or terragrunt apply, destroy or import needs an explicit request in the current conversation: the user reads the plan and decides",
-      "Mutating a Kubernetes cluster (kubectl apply, delete or patch; helm install, upgrade, uninstall or rollback; helmfile apply, sync or destroy) needs an explicit request in the current conversation",
-      "Running ansible-playbook without --check or --syntax-check needs an explicit request in the current conversation: it changes real machines"
+      "Mutating a Kubernetes cluster (kubectl apply, delete or patch; helm install, upgrade, uninstall or rollback; helmfile apply, sync or destroy) needs an explicit request in the current conversation"
     ],
     "environment": [
       "**Organization**: None configured. One engineer using this machine for both personal and work repositories",
@@ -397,7 +396,7 @@
       "**Host containment**: None configured. Ordinary developer laptop with open internet",
       "**Org-specific CLIs**: tofu, terraform, terragrunt, aws, kubectl, helm, helmfile, ansible-playbook, uv",
       "**Sensitive remote targets**: any cloud resource, cluster, namespace or host named with pro, prod or production as a whole segment",
-      "**Protected IaC scopes**: every Terraform/OpenTofu/Terragrunt state and every Ansible inventory. Planning and linting are routine; applying is the user's decision",
+      "**Protected IaC scopes**: every Terraform/OpenTofu/Terragrunt state. Planning and linting are routine; applying is the user's decision",
       "**Sensitive data locations & audiences**: .env and .envrc files, Terraform/OpenTofu state files, SSH and GPG keys, cloud credentials. Never shared outside the machine"
     ]
   }
