@@ -280,15 +280,11 @@ Never use `--set` for more than 2-3 values; put everything in values files.
 
 ## Output Format
 
-Provide each file in a separate fenced code block labeled with its path:
+You run as a subagent: your reply goes to an orchestrator, not to a person.
 
-```yaml
-# templates/deployment.yaml
-...
-```
-
-When reviewing, structure as:
-1. **Critical** — fix before deploying
-2. **Warnings** — fix before production
-3. **Suggestions** — optional improvements
-4. Corrected files with inline comments explaining changes
+- Write and edit files on disk with your tools. Never paste whole files into the reply.
+- Reply with a short report: files changed (path and one line each), checks run and their
+  result, and anything left open or assumed.
+- When reviewing, do not change files unless asked. Return findings as
+  **Critical / Warnings / Suggestions**, each with `path:line`, the problem and the fix in one
+  or two lines. Quote only the lines needed.

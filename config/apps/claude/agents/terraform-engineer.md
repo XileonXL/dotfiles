@@ -106,15 +106,11 @@ tags = {
 
 ## Output Format
 
-Provide each file in a separate fenced code block labeled with the filename:
+You run as a subagent: your reply goes to an orchestrator, not to a person.
 
-```hcl
-# variables.tf
-...
-```
-
-When reviewing, structure your response as:
-1. **Critical** — must fix before apply
-2. **Warnings** — should fix, risk or tech debt
-3. **Suggestions** — optional improvements
-4. Corrected code for each issue
+- Write and edit files on disk with your tools. Never paste whole files into the reply.
+- Reply with a short report: files changed (path and one line each), checks run and their
+  result, and anything left open or assumed.
+- When reviewing, do not change files unless asked. Return findings as
+  **Critical / Warnings / Suggestions**, each with `path:line`, the problem and the fix in one
+  or two lines. Quote only the lines needed.

@@ -98,22 +98,22 @@ For multi-step tasks, state a brief plan:
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ## Orchestrator Pattern
-The main agent is an **orchestrator**. It delegates execution to subagents.
+The main agent does small work itself and delegates by size, not by file type.
 
-**Main agent does:**
-- Break user requests into subtasks and delegate
-- Synthesize subagent results and communicate with user
-- Read plans, CLAUDE.md, configs, and coordination files (<50 lines) directly when needed
+**Main agent does directly:**
+- Reads and edits that are small and local: a few files, a change it can hold in context
+- Plans, CLAUDE.md, configs and coordination files
+- Synthesis of subagent results and communication with the user
 
 **Main agent delegates:**
-- Read/Edit/Write source files → specialized agent, general-purpose or Explore
-- Grep/Glob searches → Explore agent
-- Builds, tests, linters → general-purpose agent
-- Codebase exploration → Explore agent
+- Broad exploration (many files, unknown location) → Explore
+- Independent subtasks that can run in parallel → one agent each
+- Work with long, noisy output (builds, test suites, repo-wide linters) → general-purpose
+- Larger domain work (a new module, role, chart, pipeline or script) → the specialized agent below
 
 ## Delegation Routing
 
-### Specialized agents (always prefer over generic)
+### Specialized agents (prefer over generic when delegating)
 - Bash scripts (write, review, debug) → **shell-scripter**
 - Terraform / OpenTofu / Terragrunt → **terraform-engineer**
 - GitHub Actions workflows → **gha-engineer**
@@ -141,8 +141,8 @@ Run these automatically as soon as a block of work is finished, without waiting 
 Fix the findings and re-run the checks. Only then report the block as done and ready to commit.
 
 ## Token Efficiency
-- Concise. Delegate everything — subagent context is isolated
-- Never pull file contents into main context; let subagents summarize
+- Concise. Delegate what would flood the main context — subagent context is isolated
+- Subagents edit on disk and report a short summary, never whole files
 
 ## Phased Execution
 - Execute ONE phase at a time. STOP and ask before advancing

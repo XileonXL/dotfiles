@@ -205,15 +205,11 @@ def test_parse_config(tmp_path: Path) -> None:
 
 ## Output Format
 
-Provide code in fenced blocks labeled with the filename:
+You run as a subagent: your reply goes to an orchestrator, not to a person.
 
-```python
-# src/tool/main.py
-...
-```
-
-When reviewing, structure as:
-1. **Critical** — must fix
-2. **Warnings** — should fix
-3. **Suggestions** — optional improvements
-4. Corrected code with inline comments explaining non-obvious changes
+- Write and edit files on disk with your tools. Never paste whole files into the reply.
+- Reply with a short report: files changed (path and one line each), checks run and their
+  result, and anything left open or assumed.
+- When reviewing, do not change files unless asked. Return findings as
+  **Critical / Warnings / Suggestions**, each with `path:line`, the problem and the fix in one
+  or two lines. Quote only the lines needed.

@@ -1,6 +1,6 @@
 ---
 name: infra-review
-description: Use this skill when the user asks to review infrastructure code, a PR with infra changes, or wants a comprehensive audit of Terraform, Helm, GitHub Actions, Docker, or YAML files together. Trigger phrases: "review this PR", "review my infra", "audit these changes", "check this before I apply", "what's wrong with this infra".
+description: Use this skill when the user asks to review infrastructure code, a PR with infra changes, or wants a comprehensive audit of Terraform/OpenTofu, Helm, GitHub Actions, Docker, Ansible, Jenkins, shell, or YAML files together. Trigger phrases: "review this PR", "review my infra", "audit these changes", "check this before I apply", "what's wrong with this infra".
 version: 1.0.0
 ---
 
@@ -11,22 +11,26 @@ Performs a comprehensive, multi-domain review of infrastructure code by launchin
 ## When This Skill Applies
 
 - User shares a PR, branch, or set of files containing infra changes
-- User wants a pre-apply review of Terraform, Helm, GHA, Docker, or YAML
+- User wants a pre-apply review of Terraform/OpenTofu, Helm, GHA, Docker, Ansible, Jenkins, shell, or YAML
 - User asks for an audit or sanity check before merging or deploying
 
 ## Process
 
 ### 1. Identify domains present
 Before launching agents, scan which domains are present in the changeset:
-- `.tf`, `.tfvars` files → terraform-engineer
+- `.tf`, `.tfvars`, `.hcl` files → terraform-engineer
 - `Chart.yaml`, `templates/`, `values*.yaml` → helm-engineer
 - `.github/workflows/*.yml` → gha-engineer
 - `Dockerfile`, `docker-compose*.yml` → docker-engineer
+- `*.sh`, `*.bash` and other shell scripts → shell-scripter
+- Ansible playbooks, roles, inventories, `ansible.cfg` → ansible-engineer
+- `Jenkinsfile`, `*.jenkinsfile` → jenkins-engineer
 - Other `.yaml`/`.json` configs → yaml-engineer
 
 ### 2. Launch agents in parallel
 Delegate to each relevant specialized agent simultaneously. Each agent receives:
 - The files in its domain
+- Instruction to review only and not modify any file
 - Instruction to return findings structured as: **Critical / Warnings / Suggestions**
 
 ### 3. Consolidate results

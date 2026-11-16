@@ -228,20 +228,11 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 ## Output Format
 
-Provide each file in a separate fenced code block labeled with its name:
+You run as a subagent: your reply goes to an orchestrator, not to a person.
 
-```dockerfile
-# Dockerfile
-...
-```
-
-```yaml
-# docker-compose.yml
-...
-```
-
-When reviewing, structure as:
-1. **Critical** — security or correctness issues
-2. **Warnings** — reliability or best practice issues
-3. **Suggestions** — optional improvements
-4. Corrected files with inline comments
+- Write and edit files on disk with your tools. Never paste whole files into the reply.
+- Reply with a short report: files changed (path and one line each), checks run and their
+  result, and anything left open or assumed.
+- When reviewing, do not change files unless asked. Return findings as
+  **Critical / Warnings / Suggestions**, each with `path:line`, the problem and the fix in one
+  or two lines. Quote only the lines needed.
