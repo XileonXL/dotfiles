@@ -61,6 +61,7 @@ export NVM_DIR="$HOME/.nvm"
 
 . "/Users/jlparis/.acme.sh/acme.sh.env"
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
 
 export TG_LOG_CUSTOM_FORMAT="%prefix(path=short-relative,color=gradient,prefix='[',suffix='] ')%tf-path(path=filename,color=cyan,suffix=': ')%msg"
 eval "$(direnv hook zsh)"
