@@ -23,3 +23,6 @@ config/apps/claude/state/
 config/apps/claude/skills/synced/
 config/apps/claude/policy-limits.json*
 config/apps/claude/remote-settings.json*
+config/apps/claude/daemon/
+config/apps/claude/daemon.*
+config/apps/claude/jobs/
