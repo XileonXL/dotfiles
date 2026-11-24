@@ -67,6 +67,26 @@ audioActivityTimer = hs.timer.doEvery(1, function()
   audioActivityTask:start()
 end)
 
+-- A Bluetooth microphone drops the headset from A2DP to HFP, degrading playback.
+local function preferBuiltInMic()
+  local current = hs.audiodevice.defaultInputDevice()
+  if not current or current:transportType() ~= "Bluetooth" then return end
+  for _, device in ipairs(hs.audiodevice.allInputDevices()) do
+    if device:transportType() == "Built-in" then
+      if not device:setDefaultInputDevice() then
+        print("audio-input: could not switch input to " .. device:name())
+      end
+      return
+    end
+  end
+end
+
+hs.audiodevice.watcher.setCallback(function(event)
+  if event == "dIn " or event == "dev#" then preferBuiltInMic() end
+end)
+hs.audiodevice.watcher.start()
+preferBuiltInMic()
+
 hs.shutdownCallback = function()
   if mutedDevice then unmute() end
 end
