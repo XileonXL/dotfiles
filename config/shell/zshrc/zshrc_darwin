@@ -36,6 +36,7 @@ alias tga="terragrunt apply"
 alias ot="tofu"
 alias ota="tofu apply"
 alias v="nvim"
+alias claude-clean="claude agents --json --all | jq -r '.[] | select(.kind == \"background\") | .id' | xargs -n1 claude rm"
 
 source /opt/homebrew/etc/profile.d/autojump.sh
 
