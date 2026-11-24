@@ -1,7 +1,7 @@
 - block:
-    - name: Create hammerspoon config directory
+    - name: Create hammerspoon directories
       ansible.builtin.file:
-        path: "{{ lookup('env', 'HOME') }}/.hammerspoon"
+        path: "{{ lookup('env', 'HOME') }}/.hammerspoon/bin"
         state: directory
         mode: '0755'
 
@@ -11,5 +11,12 @@
         dest: "{{ lookup('env', 'HOME') }}/.hammerspoon/init.lua"
         state: link
         force: true
+
+    - name: Build audio-activity helper
+      ansible.builtin.command: >-
+        swiftc -O
+        {{ lookup('env', 'HOME') }}/dotfiles/config/apps/hammerspoon/audio-activity.swift
+        -o {{ lookup('env', 'HOME') }}/.hammerspoon/bin/audio-activity
+      changed_when: true
   when: ansible_facts['os_family'] == 'Darwin'
   tags: hammerspoon
