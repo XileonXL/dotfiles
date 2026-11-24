@@ -371,6 +371,10 @@
   "alwaysThinkingEnabled": false,
   "effortLevel": "medium",
   "tui": "fullscreen",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "autoMemoryEnabled": true,
   "switchModelsOnFlag": false,
   "autoMode": {
@@ -399,5 +403,6 @@
       "**Protected IaC scopes**: every Terraform/OpenTofu/Terragrunt state. Planning and linting are routine; applying is the user's decision",
       "**Sensitive data locations & audiences**: .env and .envrc files, Terraform/OpenTofu state files, SSH and GPG keys, cloud credentials. Never shared outside the machine"
     ]
-  }
+  },
+  "voiceEnabled": true
 }
