@@ -1,0 +1,15 @@
+- block:
+    - name: Create hammerspoon config directory
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.hammerspoon"
+        state: directory
+        mode: '0755'
+
+    - name: Link hammerspoon config
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/hammerspoon/init.lua"
+        dest: "{{ lookup('env', 'HOME') }}/.hammerspoon/init.lua"
+        state: link
+        force: true
+  when: ansible_facts['os_family'] == 'Darwin'
+  tags: hammerspoon
