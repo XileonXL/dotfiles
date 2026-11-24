@@ -1,0 +1,209 @@
+start-at-login = true
+
+after-startup-command = [
+    'exec-and-forget borders active_color=0x66ffffff order=above hidpi="on" inactive_color=0x00ffffff width=1 style="round"',
+]
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+key-mapping.preset = 'qwerty'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Workspaces 8, 9, 0 anclados al portátil — el resto va a la pantalla grande si está conectada
+# El nombre 'Built-in Retina Display' es el nombre exacto del monitor del portátil
+[workspace-to-monitor-force-assignment]
+'0' = 'Built-in Retina Display'
+'8' = 'Built-in Retina Display'
+'9' = 'Built-in Retina Display'
+
+[gaps]
+inner.horizontal = 10
+inner.vertical   = 10
+outer.left       = 10
+outer.bottom     = 10
+outer.top        = 10
+outer.right      = 10
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+[mode.main.binding]
+
+    # Suppress macOS "hide" shortcuts
+    cmd-alt-h = []
+
+    # Focus (vim + arrows)
+    cmd-h     = 'focus left'
+    cmd-j     = 'focus down'
+    cmd-k     = 'focus up'
+    cmd-l     = 'focus right'
+    cmd-left  = 'focus left'
+    cmd-down  = 'focus down'
+    cmd-up    = 'focus up'
+    cmd-right = 'focus right'
+
+    # Move windows (vim + arrows)
+    cmd-shift-h     = 'move left'
+    cmd-shift-j     = 'move down'
+    cmd-shift-k     = 'move up'
+    cmd-shift-l     = 'move right'
+    cmd-shift-left  = 'move left'
+    cmd-shift-down  = 'move down'
+    cmd-shift-up    = 'move up'
+    cmd-shift-right = 'move right'
+
+    # Layout
+    cmd-shift-f = 'layout floating tiling'
+    cmd-shift-v = 'layout horizontal vertical'
+    cmd-shift-z = 'fullscreen'
+
+    # Resize
+    cmd-alt-equal = 'resize width +32'
+    cmd-alt-minus = 'resize width -32'
+    cmd-alt-shift-equal = 'resize height +32'
+    cmd-alt-shift-minus = 'resize height -32'
+
+    # Workspaces
+    cmd-1 = 'workspace 1'
+    cmd-2 = 'workspace 2'
+    cmd-3 = 'workspace 3'
+    cmd-4 = 'workspace 4'
+    cmd-5 = 'workspace 5'
+    cmd-6 = 'workspace 6'
+    cmd-7 = 'workspace 7'
+    cmd-8 = 'workspace 8'
+    cmd-9 = 'workspace 9'
+    cmd-0 = 'workspace 0'
+
+    cmd-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+    cmd-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+    cmd-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+    cmd-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+    cmd-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+    cmd-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+    cmd-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+    cmd-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+    cmd-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
+    cmd-shift-0 = 'move-node-to-workspace 0 --focus-follows-window'
+
+    # Conflicts with MacOS app switcher
+    # cmd-tab       = 'workspace next'
+    # cmd-shift-tab = 'workspace prev'
+    cmd-i         = 'workspace-back-and-forth'
+
+    # App launchers
+    cmd-enter   = 'exec-and-forget open -a "Ghostty"'
+    cmd-alt-b = 'exec-and-forget open -a "Brave Browser"'
+    cmd-alt-m = 'exec-and-forget open -a "Spotify"'
+    cmd-alt-a = 'exec-and-forget open -a "Claude"'
+
+    # Modes
+    cmd-alt-shift-r = 'mode resize'
+    cmd-alt-shift-m = 'mode move'
+
+    # Misc
+    cmd-shift-r     = 'reload-config'
+    cmd-shift-space = 'balance-sizes'
+
+
+# ── Resize mode ───────────────────────────────────────────────────────────────
+
+[mode.resize.binding]
+    esc   = 'mode main'
+    enter = 'mode main'
+
+    h = 'resize width -32'
+    j = 'resize height +32'
+    k = 'resize height -32'
+    l = 'resize width +32'
+
+    shift-h = 'resize width -128'
+    shift-j = 'resize height +128'
+    shift-k = 'resize height -128'
+    shift-l = 'resize width +128'
+
+
+# ── Move mode (merge windows into containers) ─────────────────────────────────
+
+[mode.move.binding]
+    esc   = 'mode main'
+    enter = 'mode main'
+
+    h = ['join-with left',  'mode main']
+    j = ['join-with down',  'mode main']
+    k = ['join-with up',    'mode main']
+    l = ['join-with right', 'mode main']
+
+
+# ── Application rules ─────────────────────────────────────────────────────────
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = ['layout tiling', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run = ['layout tiling', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = ['layout tiling', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+if.window-title-regex-substring = 'Reminder'
+run = ['layout floating', 'move-node-to-workspace 5']
+check-further-callbacks = false
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = ['layout tiling', 'move-node-to-workspace 5']
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = ['layout tiling', 'move-node-to-workspace 0']
+
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AppStore'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.FaceTime'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'org.pqrs.Karabiner-Elements.Settings'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = 'layout floating'

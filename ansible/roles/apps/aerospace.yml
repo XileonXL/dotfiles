@@ -1,0 +1,15 @@
+- block:
+    - name: Create aerospace config directory
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.config/aerospace"
+        state: directory
+        mode: '0755'
+
+    - name: Link aerospace config
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/dotfiles/config/apps/aerospace/aerospace.toml"
+        dest: "{{ lookup('env', 'HOME') }}/.config/aerospace/aerospace.toml"
+        state: link
+        force: true
+  when: ansible_facts['os_family'] == 'Darwin'
+  tags: aerospace
