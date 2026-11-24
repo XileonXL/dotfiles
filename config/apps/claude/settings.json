@@ -320,7 +320,7 @@
       "Bash(docker push*)"
     ]
   },
-  "model": "fable",
+  "model": "opus",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "PostToolUse": [
